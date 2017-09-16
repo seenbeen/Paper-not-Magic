@@ -1,10 +1,13 @@
 #include <SFML/Graphics.hpp>
+#include <mnp/tower.hpp>
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
+    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML works!");
+
+    sf::Clock clock;
+    float r = 200.0f;
+    MyDude d(400.0f - r, 300.0f - r, r);
 
     while (window.isOpen())
     {
@@ -15,8 +18,11 @@ int main()
                 window.close();
         }
 
+        sf::Time elapsed = clock.restart();
+
         window.clear();
-        window.draw(shape);
+        d.update(elapsed, window);
+        d.draw(window);
         window.display();
     }
 

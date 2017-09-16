@@ -37,3 +37,25 @@ NotSpecialTower::~NotSpecialTower() {
 void NotSpecialTower::doSomething() {
     std::cout << "meep" << std::endl;
 }
+
+MyDude::MyDude(float px, float py, float r) :
+                m_x(px), m_y(py), m_r(r), m_shape(r) {
+    m_shape.setFillColor(sf::Color::Green);
+}
+
+MyDude::~MyDude() {}
+
+void MyDude::update(sf::Time &dt, sf::RenderWindow &window) {
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+        sf::Vector2i v = sf::Mouse::getPosition(window);
+        m_x = v.x - m_r;
+        m_y = v.y - m_r;
+    }
+    m_x += dt.asSeconds() * 35.0f;
+    m_y += dt.asSeconds() * 35.0f;
+    m_shape.setPosition(m_x, m_y);
+}
+
+void MyDude::draw(sf::RenderWindow &window) {
+    window.draw(m_shape);
+}

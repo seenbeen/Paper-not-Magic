@@ -1,4 +1,5 @@
 #pragma once
+#include <SFML/Graphics.hpp>
 
 class Tower {
     int m_x, m_y;
@@ -24,4 +25,15 @@ public:
     ~NotSpecialTower();
 
     void doSomething();
+};
+
+class MyDude {
+    float m_x, m_y, m_r;
+    sf::CircleShape m_shape;
+public:
+    MyDude(float px, float py, float r);
+    ~MyDude();
+
+    void update(sf::Time &dt, sf::RenderWindow &window);
+    void draw(sf::RenderWindow &window);
 };
