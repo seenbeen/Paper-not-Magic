@@ -48,7 +48,12 @@
 			<Add library="winmm" />
 			<Add directory="lib" />
 		</Linker>
+		<Unit filename="include/core/finitestatemachine.hpp" />
+		<Unit filename="include/core/game.hpp" />
+		<Unit filename="include/core/gamestate.hpp" />
 		<Unit filename="include/mnp/tower.hpp" />
+		<Unit filename="src/core/game.cpp" />
+		<Unit filename="src/core/gamestate.cpp" />
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/tower.cpp" />
 		<Extensions>

@@ -1,7 +1,11 @@
 # depslib dependency file v1.0
-1505590340 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\main.cpp
-	<SFML/Graphics.hpp>
-	<mnp/tower.hpp>
+1507095174 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\main.cpp
+	<cstdlib>
+	<iostream>
+	<core/game.hpp>
+	<core/engine.hpp>
+	<core/gameobject.hpp>
+	<core/gameobjectcomponent.hpp>
 
 1486739997 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\sfml\graphics.hpp
 	<SFML/Window.hpp>
@@ -397,4 +401,40 @@
 1505590369 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\tower.cpp
 	<mnp/tower.hpp>
 	<iostream>
+
+1506810638 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\core\finitestatemachine.cpp
+	<core/finitestatemachine.hpp>
+
+1507093780 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\core\finitestatemachine.hpp
+	<cstdlib>
+	<map>
+	<vector>
+
+1506813090 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\core\game.cpp
+
+1506813096 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\core\gamestate.cpp
+
+1507095379 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\core\game.hpp
+
+1507093652 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\core\engine.cpp
+	<core/engine.hpp>
+
+1507095487 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\core\engine.hpp
+	<core/finitestatemachine.hpp>
+	<core/stage.hpp>
+
+1507095149 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\core\gameobject.hpp
+	<list>
+	<core/gameobjectcomponent.hpp>
+
+1507094848 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\core\gameobjectcomponent.hpp
+
+1507095058 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\core\gameobject.cpp
+
+1507094811 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\core\gameobjectcomponent.cpp
+
+1507095505 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\core\stage.hpp
+	<list>
+	<core/finitestatemachine.hpp>
+	<core/gameobject.hpp>
 
