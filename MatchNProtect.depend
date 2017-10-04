@@ -419,11 +419,12 @@
 1507093652 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\core\engine.cpp
 	<core/engine.hpp>
 
-1507095487 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\core\engine.hpp
+1507095631 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\core\engine.hpp
+	<vector>
 	<core/finitestatemachine.hpp>
 	<core/stage.hpp>
 
-1507095149 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\core\gameobject.hpp
+1507095643 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\core\gameobject.hpp
 	<list>
 	<core/gameobjectcomponent.hpp>
 
@@ -433,7 +434,7 @@
 
 1507094811 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\core\gameobjectcomponent.cpp
 
-1507095505 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\core\stage.hpp
+1507095646 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\core\stage.hpp
 	<list>
 	<core/finitestatemachine.hpp>
 	<core/gameobject.hpp>

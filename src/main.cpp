@@ -68,11 +68,9 @@ int main() {
 
     std::vector<Stage<EngineStages>*> stages;
     stages.push_back(new StageA());
+    EngineConfig<EngineStages> config(GAME, stages);
 
-    BaseEngineConfig *config = new EngineConfig<EngineStages>(GAME, stages);
-    engine.initialize(config);
-
-    delete config;
+    engine.initialize(&config);
 
     engine.run();
 
