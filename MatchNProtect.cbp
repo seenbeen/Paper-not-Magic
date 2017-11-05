@@ -48,14 +48,15 @@
 			<Add library="winmm" />
 			<Add directory="lib" />
 		</Linker>
+		<Unit filename="include/core/engine.hpp" />
 		<Unit filename="include/core/finitestatemachine.hpp" />
-		<Unit filename="include/core/game.hpp" />
-		<Unit filename="include/core/gamestate.hpp" />
-		<Unit filename="include/mnp/tower.hpp" />
-		<Unit filename="src/core/game.cpp" />
-		<Unit filename="src/core/gamestate.cpp" />
+		<Unit filename="include/core/gameobject.hpp" />
+		<Unit filename="include/core/gameobjectcomponent.hpp" />
+		<Unit filename="include/core/stage.hpp" />
+		<Unit filename="include/render/imageatlas.hpp" />
+		<Unit filename="src/core/engine.cpp" />
 		<Unit filename="src/main.cpp" />
-		<Unit filename="src/tower.cpp" />
+		<Unit filename="src/render/imageatlas.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

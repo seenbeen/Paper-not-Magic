@@ -1,11 +1,17 @@
+#include <SFML/graphics.hpp>
 #include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
 
 #include <core/engine.hpp>
 #include <core/stage.hpp>
 #include <core/gameobject.hpp>
 #include <core/gameobjectcomponent.hpp>
+#include <render/imageatlas.hpp>
 
 using namespace MNPCore;
+using namespace MNPRender;
 
 class ObjectA;
 class ComponentA : public GameObjectComponent<ObjectA> {
@@ -64,17 +70,40 @@ public:
 };
 
 int main() {
-    Engine engine;
+    ImageAtlas atlas;
+    std::ifstream inFile;
+    inFile.open("asset/data.xml");
+    if (!inFile) {
+        std::cout << "rip couldn't find data file" << std::endl;
+    }
+    std::string k, resource;
+    sf::Image img;
+    while (inFile >> k >> k) {
+        resource = "asset/testSprites/"+k.substr(7,k.length()-7-1);
+        img.loadFromFile(resource);
+        atlas.pushResource(resource,img);
+        inFile >> k >> k >> k;
+    }
+    atlas.pack();
+    sf::Texture text = atlas.getTexture();
+    sf::Sprite sprite(text);
 
-    std::vector<Stage<EngineStages>*> stages;
-    stages.push_back(new StageA());
-    EngineConfig<EngineStages> config(GAME, stages);
+    sf::ContextSettings settings;
+    settings.antialiasingLevel = 8;
+    sf::RenderWindow window(sf::VideoMode(text.getSize().x, text.getSize().y), "Seenbeen is(n't) boosted!", sf::Style::Default, settings);
 
-    engine.initialize(&config);
-
-    engine.run();
-
-    engine.shutdown();
+    while (window.isOpen())
+    {
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+        window.clear();
+        window.draw(sprite);
+        window.display();
+    }
 
     return 0;
 }
