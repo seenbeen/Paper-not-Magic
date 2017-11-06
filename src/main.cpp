@@ -87,10 +87,16 @@ int main() {
     atlas.pack();
     sf::Texture text = atlas.getTexture();
     sf::Sprite sprite(text);
-
+    int texWidth = text.getSize().x;
+    int texHeight = text.getSize().y;
+    std::cout << "Result Dims: " <<  texWidth << "x" << texHeight << std::endl;
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
-    sf::RenderWindow window(sf::VideoMode(text.getSize().x, text.getSize().y), "Seenbeen is(n't) boosted!", sf::Style::Default, settings);
+    sf::RenderWindow window(sf::VideoMode(texWidth, texHeight), "Seenbeen is(n't) boosted!", sf::Style::Default, settings);
+
+
+    sf::FloatRect texCoords;
+    atlas.getResource("asset/testSprites/swingO1_2.png",texCoords,false);
 
     while (window.isOpen())
     {
@@ -100,8 +106,17 @@ int main() {
             if (event.type == sf::Event::Closed)
                 window.close();
         }
+        sf::Vector2i mousePos= sf::Mouse::getPosition(window);
+        int x = mousePos.x, y = mousePos.y;
+
+        sf::VertexArray vArr(sf::Quads);
+        vArr.append(sf::Vertex(sf::Vector2f(x,y),sf::Vector2f(texCoords.left,texCoords.top)));
+        vArr.append(sf::Vertex(sf::Vector2f(x+texCoords.width,y),sf::Vector2f(texCoords.left+texCoords.width,texCoords.top)));
+        vArr.append(sf::Vertex(sf::Vector2f(x+texCoords.width,y+texCoords.height),sf::Vector2f(texCoords.left+texCoords.width,texCoords.top+texCoords.height)));
+        vArr.append(sf::Vertex(sf::Vector2f(x,y+texCoords.height),sf::Vector2f(texCoords.left,texCoords.top+texCoords.height)));
+
         window.clear();
-        window.draw(sprite);
+        window.draw(vArr,&text);
         window.display();
     }
 

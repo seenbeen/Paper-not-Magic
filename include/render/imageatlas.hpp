@@ -9,7 +9,7 @@ namespace MNPRender {
     class ImageAtlas {
         struct ImageResource {
             sf::FloatRect normalizedRect;
-            sf::IntRect localRect;
+            sf::FloatRect localRect;
             sf::Image resourceData;
             ImageResource(const sf::Image &image);
             static bool cmp(const ImageResource *a, const ImageResource *b);
@@ -50,11 +50,13 @@ namespace MNPRender {
 
         /*
             Fetches a resource from a packed imageAtlas and stores it in argument.
+            Normalized determines whether the values should be divided by the texture dims
+            to produce a value in the range [0,1]
             Returns false on:
             - atlas isn't packed
             - resource wasn't found
         */
-        bool getResource(const std::string &resourceKey, sf::FloatRect &textureRect);
+        bool getResource(const std::string &resourceKey,  sf::FloatRect &textureRect, bool normalized = true);
 
         /*
             Do not modify the texture returned by this! It is meant to give a handle

@@ -5,7 +5,7 @@ namespace MNPRender {
 
     ImageAtlas::ImageResource::ImageResource(const sf::Image &image) {
         resourceData = image;
-        localRect = sf::IntRect(0,0,resourceData.getSize().x,resourceData.getSize().y);
+        localRect = sf::FloatRect(0,0,(float)resourceData.getSize().x,(float)resourceData.getSize().y);
         normalizedRect = sf::FloatRect();
     }
 
@@ -76,13 +76,13 @@ namespace MNPRender {
             area += (*it)->localRect.width * (*it)->localRect.height;
         }
 
-        int dims = std::ceil(std::sqrt(area));
-        // above gets us the power of two that would contain everything assuming area
+        float dims = std::ceil(std::sqrt(area));
+        // above gets us the dimension of square that would contain everything assuming area
         // was PERFECTLY tightly packed (ie: dissecting rects up allowed)
 
-        int xMark = 0;
-        int yMark = 0;
-        int yTemp = 0;
+        float xMark = 0;
+        float yMark = 0;
+        float yTemp = 0;
 
         for (it = resourceLst.begin(); it != resourceLst.end(); ++it) {
             if (xMark + (*it)->localRect.width > dims) {
@@ -97,27 +97,27 @@ namespace MNPRender {
         }
         yMark += yTemp;
 
-        int resultW = dims;
-        int resultH = yMark;
+        float resultW = dims;
+        float resultH = yMark;
 
         // note that we have to populate image on a second iteration here
         // because the estimate isn't perfect and yMark
         // CAN overflow the originally intended dims
-        m_img.create(resultW,resultH);
+        m_img.create((int)resultW,(int)resultH);
 
         for (it = resourceLst.begin(); it != resourceLst.end(); ++it) {
             m_img.copy((*it)->resourceData,(*it)->localRect.left,(*it)->localRect.top);
-            (*it)->normalizedRect.left = ((float)(*it)->localRect.left)/resultW;
-            (*it)->normalizedRect.top = ((float)(*it)->localRect.top)/resultH;
-            (*it)->normalizedRect.width = ((float)(*it)->localRect.width)/resultW;
-            (*it)->normalizedRect.height = ((float)(*it)->localRect.height)/resultH;
+            (*it)->normalizedRect.left = (*it)->localRect.left / resultW;
+            (*it)->normalizedRect.top = (*it)->localRect.top / resultH;
+            (*it)->normalizedRect.width = (*it)->localRect.width / resultW;
+            (*it)->normalizedRect.height = (*it)->localRect.height / resultH;
         }
         m_texture.loadFromImage(m_img);
         m_needsPacking = false;
         return true;
     }
 
-    bool ImageAtlas::getResource(const std::string &resourceKey, sf::FloatRect &textureRect) {
+    bool ImageAtlas::getResource(const std::string &resourceKey, sf::FloatRect &textureRect, bool normalized) {
         if (m_needsPacking) {
             return false;
         }
@@ -126,7 +126,11 @@ namespace MNPRender {
         if (it == m_resources.end()) {
             return false;
         }
-        textureRect = it->second->normalizedRect;
+        if (normalized) {
+            textureRect = it->second->normalizedRect;
+        } else {
+            textureRect = it->second->localRect;
+        }
         return true;
     }
 
