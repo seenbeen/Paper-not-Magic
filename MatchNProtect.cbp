@@ -48,9 +48,15 @@
 			<Add library="winmm" />
 			<Add directory="lib" />
 		</Linker>
+		<Unit filename="include/mnp/UIDemo.hpp" />
+		<Unit filename="include/mnp/shapes.hpp" />
 		<Unit filename="include/mnp/tower.hpp" />
+		<Unit filename="include/mnp/uiElements.hpp" />
+		<Unit filename="src/UIDemo.cpp" />
 		<Unit filename="src/main.cpp" />
+		<Unit filename="src/shapes.cpp" />
 		<Unit filename="src/tower.cpp" />
+		<Unit filename="src/uiElements.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

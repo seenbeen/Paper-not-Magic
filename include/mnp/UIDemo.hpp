@@ -1,17 +1,11 @@
+#pragma once
 #include <SFML/Graphics.hpp>
 #include <mnp/uiElements.hpp>
 #include <mnp/shapes.hpp>
 #include <iostream>
-#include <mnp/UIDemo.hpp>
 
-int main()
-{
-    UIDemo mydemo;
-    mydemo.run();
+class UIDemo {
+public:
+    int run();
 
-
-
-
-    return 0;
-}
-
+};
