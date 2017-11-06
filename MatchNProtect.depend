@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1509929192 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\main.cpp
+1509960876 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\main.cpp
 	<SFML/graphics.hpp>
 	<iostream>
 	<fstream>
@@ -10,6 +10,7 @@
 	<core/gameobject.hpp>
 	<core/gameobjectcomponent.hpp>
 	<render/imageatlas.hpp>
+	<render/batcherizer.hpp>
 
 1486736397 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\sfml\graphics.hpp
 	<SFML/Window.hpp>
@@ -453,4 +454,17 @@
 	<map>
 	<list>
 	<utility>
+
+1509959668 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\include\render\batcherizer.hpp
+	<SFML/graphics.hpp>
+	<vector>
+	<list>
+
+1509960829 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\render\batcherizer.cpp
+	<render/batcherizer.hpp>
+
+1509960452 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\render\batcherizer.hpp
+	<SFML/graphics.hpp>
+	<vector>
+	<list>
 

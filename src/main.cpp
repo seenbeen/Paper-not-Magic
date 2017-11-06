@@ -9,6 +9,7 @@
 #include <core/gameobject.hpp>
 #include <core/gameobjectcomponent.hpp>
 #include <render/imageatlas.hpp>
+#include <render/batcherizer.hpp>
 
 using namespace MNPCore;
 using namespace MNPRender;
@@ -92,11 +93,23 @@ int main() {
     std::cout << "Result Dims: " <<  texWidth << "x" << texHeight << std::endl;
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
-    sf::RenderWindow window(sf::VideoMode(texWidth, texHeight), "Seenbeen is(n't) boosted!", sf::Style::Default, settings);
+    sf::RenderWindow window(sf::VideoMode(800, 600), "Seenbeen is(n't) boosted!",
+                            sf::Style::Titlebar | sf::Style::Close, settings);
 
 
+    Batcherizer bat;
     sf::FloatRect texCoords;
-    atlas.getResource("asset/testSprites/swingO1_2.png",texCoords,false);
+
+    atlas.getResource("asset/testSprites/swingOF_0.png",texCoords,false);
+    bat.push(texCoords,texCoords,0.0f);
+    atlas.getResource("asset/testSprites/swingOF_1.png",texCoords,false);
+    bat.push(sf::FloatRect(0,0,texCoords.width,texCoords.height),texCoords,1.0f);
+    bat.push(texCoords,texCoords,0.0f);
+
+    bat.batcherize();
+
+    std::vector<sf::VertexArray> batches = bat.getBatches();
+    std::cout << "Batches: " << batches.size() << std::endl;
 
     while (window.isOpen())
     {
@@ -106,17 +119,11 @@ int main() {
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-        sf::Vector2i mousePos= sf::Mouse::getPosition(window);
-        int x = mousePos.x, y = mousePos.y;
-
-        sf::VertexArray vArr(sf::Quads);
-        vArr.append(sf::Vertex(sf::Vector2f(x,y),sf::Vector2f(texCoords.left,texCoords.top)));
-        vArr.append(sf::Vertex(sf::Vector2f(x+texCoords.width,y),sf::Vector2f(texCoords.left+texCoords.width,texCoords.top)));
-        vArr.append(sf::Vertex(sf::Vector2f(x+texCoords.width,y+texCoords.height),sf::Vector2f(texCoords.left+texCoords.width,texCoords.top+texCoords.height)));
-        vArr.append(sf::Vertex(sf::Vector2f(x,y+texCoords.height),sf::Vector2f(texCoords.left,texCoords.top+texCoords.height)));
 
         window.clear();
-        window.draw(vArr,&text);
+        for (unsigned int i = 0; i < batches.size(); ++i) {
+            window.draw(batches[0],&text);
+        }
         window.display();
     }
 

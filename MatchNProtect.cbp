@@ -53,9 +53,11 @@
 		<Unit filename="include/core/gameobject.hpp" />
 		<Unit filename="include/core/gameobjectcomponent.hpp" />
 		<Unit filename="include/core/stage.hpp" />
+		<Unit filename="include/render/batcherizer.hpp" />
 		<Unit filename="include/render/imageatlas.hpp" />
 		<Unit filename="src/core/engine.cpp" />
 		<Unit filename="src/main.cpp" />
+		<Unit filename="src/render/batcherizer.cpp" />
 		<Unit filename="src/render/imageatlas.cpp" />
 		<Extensions>
 			<code_completion />
