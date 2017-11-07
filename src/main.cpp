@@ -9,7 +9,7 @@
 #include <core/gameobject.hpp>
 #include <core/gameobjectcomponent.hpp>
 #include <render/imageatlas.hpp>
-#include <render/batcherizer.hpp>
+#include <render/scene.hpp>
 
 using namespace MNPCore;
 using namespace MNPRender;
@@ -96,20 +96,20 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(800, 600), "Seenbeen is(n't) boosted!",
                             sf::Style::Titlebar | sf::Style::Close, settings);
 
+    Scene myScene(atlas);
+    SceneObject *objectA = new SceneObject("asset/testSprites/swingOF_0.png");
+    objectA->transform.depth() = 0.0f;
+    myScene.addObject(objectA);
 
-    Batcherizer bat;
-    sf::FloatRect texCoords;
+    SceneObject *objectB = new SceneObject("asset/testSprites/swingOF_1.png");
+    objectB->transform.depth() = 1.0f;
+    myScene.addObject(objectB);
 
-    atlas.getResource("asset/testSprites/swingOF_0.png",texCoords,false);
-    bat.push(texCoords,texCoords,0.0f);
-    atlas.getResource("asset/testSprites/swingOF_1.png",texCoords,false);
-    bat.push(sf::FloatRect(0,0,texCoords.width,texCoords.height),texCoords,1.0f);
-    bat.push(texCoords,texCoords,0.0f);
-
-    bat.batcherize();
-
-    std::vector<sf::VertexArray> batches = bat.getBatches();
-    std::cout << "Batches: " << batches.size() << std::endl;
+    SceneObject *objectC = new SceneObject("asset/testSprites/swingOF_1.png");
+    objectC->transform.depth() = 0.0f;
+    objectC->transform.position() += sf::Vector2f(400.0f,300.0f);
+    objectC->transform.scale() *= 1.5f;
+    myScene.addObject(objectC);
 
     while (window.isOpen())
     {
@@ -121,9 +121,7 @@ int main() {
         }
 
         window.clear();
-        for (unsigned int i = 0; i < batches.size(); ++i) {
-            window.draw(batches[0],&text);
-        }
+        myScene.render(window);
         window.display();
     }
 

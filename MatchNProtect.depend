@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1509960876 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\main.cpp
+1510046632 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\main.cpp
 	<SFML/graphics.hpp>
 	<iostream>
 	<fstream>
@@ -10,7 +10,7 @@
 	<core/gameobject.hpp>
 	<core/gameobjectcomponent.hpp>
 	<render/imageatlas.hpp>
-	<render/batcherizer.hpp>
+	<render/scene.hpp>
 
 1486736397 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\sfml\graphics.hpp
 	<SFML/Window.hpp>
@@ -444,11 +444,11 @@
 	<core/finitestatemachine.hpp>
 	<core/gameobject.hpp>
 
-1509929205 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\render\imageatlas.cpp
+1510045085 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\render\imageatlas.cpp
 	<render/imageatlas.hpp>
 	<cmath>
 
-1509929297 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\render\imageatlas.hpp
+1510045088 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\render\imageatlas.hpp
 	<SFML/graphics.hpp>
 	<string>
 	<map>
@@ -467,4 +467,24 @@
 	<SFML/graphics.hpp>
 	<vector>
 	<list>
+
+1510046588 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\core\math.cpp
+	<core/math.hpp>
+
+1510044276 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\core\math.hpp
+	<SFML/Graphics.hpp>
+
+1510028205 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\render\renderer.cpp
+
+1510045829 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\render\scene.hpp
+	<SFML/System.hpp>
+	<SFML/Graphics.hpp>
+	<string>
+	<set>
+	<core/math.hpp>
+	<render/imageatlas.hpp>
+	<render/batcherizer.hpp>
+
+1510046671 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\render\scene.cpp
+	<render/scene.hpp>
 
