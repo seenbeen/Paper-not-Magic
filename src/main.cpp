@@ -3,6 +3,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <sstream>
 
 #include <core/engine.hpp>
 #include <core/stage.hpp>
@@ -79,11 +80,17 @@ int main() {
     }
     std::string k, resource;
     sf::Image img;
+    int oX, oY;
     while (inFile >> k >> k) {
         resource = "asset/testSprites/"+k.substr(7,k.length()-7-1);
         img.loadFromFile(resource);
-        atlas.pushResource(resource,img);
-        inFile >> k >> k >> k;
+        inFile >> k >> k;
+        std::istringstream offX(k.substr(3,k.length()-3-1));
+        inFile >> k;
+        std::istringstream offY(k.substr(3,k.length()-3-1));
+        offX >> oX;
+        offY >> oY;
+        atlas.pushResource(resource,img, sf::Vector2f(oX,oY));
     }
     atlas.pack();
     sf::Texture text = atlas.getTexture();
@@ -98,17 +105,20 @@ int main() {
 
     Scene myScene(atlas);
     SceneObject *objectA = new SceneObject("asset/testSprites/swingOF_0.png");
-    objectA->transform.depth() = 0.0f;
+    objectA->transform.depth() = 1.0f;
+    objectA->transform.position() += sf::Vector2f(400.0f,150.0f);
     myScene.addObject(objectA);
 
     SceneObject *objectB = new SceneObject("asset/testSprites/swingOF_1.png");
-    objectB->transform.depth() = 1.0f;
+    objectB->transform.depth() = 0.0f;
+    objectB->transform.position() += sf::Vector2f(200.0f,150.0f);
     myScene.addObject(objectB);
 
     SceneObject *objectC = new SceneObject("asset/testSprites/swingOF_1.png");
     objectC->transform.depth() = 0.0f;
     objectC->transform.position() += sf::Vector2f(400.0f,300.0f);
-    objectC->transform.scale() *= 1.5f;
+    objectC->transform.scale() *= 2.5f;
+    objectC->transform.rotation() = 45.5f;
     myScene.addObject(objectC);
 
     while (window.isOpen())

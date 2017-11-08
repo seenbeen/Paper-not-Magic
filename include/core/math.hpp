@@ -2,6 +2,14 @@
 #include <SFML/Graphics.hpp>
 
 namespace MNPCore {
+    struct Quad {
+        sf::Vector2f A, B, C, D;
+        sf::FloatRect boundingRect;
+        Quad(const sf::FloatRect &rect);
+        Quad(const sf::Vector2f &A, const sf::Vector2f &B, const sf::Vector2f &C, const sf::Vector2f &D);
+        void recalculateBoundingRect();
+    };
+
     class Transform {
         sf::Transform m_transform;
         // flagged whenever this class is potentially updated
@@ -23,7 +31,6 @@ namespace MNPCore {
         sf::Vector2f &position();
         sf::Vector2f &scale();
 
-        sf::Vector2f transformPoint(const sf::Vector2f &pt);
-        sf::FloatRect transformRect(const sf::FloatRect &rect);
+        Quad transformQuad(const Quad &quad);
     };
 }

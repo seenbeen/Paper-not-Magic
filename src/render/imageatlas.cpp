@@ -3,10 +3,11 @@
 
 namespace MNPRender {
 
-    ImageAtlas::ImageResource::ImageResource(const sf::Image &image) {
+    ImageAtlas::ImageResource::ImageResource(const sf::Image &image, const sf::Vector2f &_offset) {
         resourceData = image;
         localRect = sf::FloatRect(0,0,(float)resourceData.getSize().x,(float)resourceData.getSize().y);
         normalizedRect = sf::FloatRect();
+        offset = _offset;
     }
 
     bool ImageAtlas::ImageResource::cmp(const ImageResource *a, const ImageResource *b) {
@@ -35,14 +36,14 @@ namespace MNPRender {
         }
     }
 
-    bool ImageAtlas::pushResource(const std::string &resourceKey, const sf::Image &image) {
+    bool ImageAtlas::pushResource(const std::string &resourceKey, const sf::Image &image, const sf::Vector2f &offset) {
         std::map<std::string,ImageResource*>::iterator it;
         it = m_resources.find(resourceKey);
         if (it != m_resources.end()) {
             return false;
         }
         m_needsPacking = true;
-        m_resources[resourceKey] = new ImageResource(image);
+        m_resources[resourceKey] = new ImageResource(image,offset);
         return true;
     }
 
@@ -117,7 +118,7 @@ namespace MNPRender {
         return true;
     }
 
-    bool ImageAtlas::getResource(const std::string &resourceKey, sf::FloatRect &textureRect, bool normalized) {
+    bool ImageAtlas::getResource(const std::string &resourceKey, sf::FloatRect &textureRect, sf::Vector2f &offset, bool normalized) {
         if (m_needsPacking) {
             return false;
         }
@@ -131,6 +132,7 @@ namespace MNPRender {
         } else {
             textureRect = it->second->localRect;
         }
+        offset = it->second->offset;
         return true;
     }
 

@@ -1,6 +1,35 @@
 #include <core/math.hpp>
 
 namespace MNPCore {
+    Quad::Quad(const sf::FloatRect &rect) {
+        A = sf::Vector2f(rect.left,rect.top);
+        B = sf::Vector2f(rect.left+rect.width,rect.top);
+        C = sf::Vector2f(rect.left+rect.width,rect.top+rect.height);
+        D = sf::Vector2f(rect.left,rect.top+rect.height);
+        recalculateBoundingRect();
+    }
+
+    Quad::Quad(const sf::Vector2f &A, const sf::Vector2f &B, const sf::Vector2f &C, const sf::Vector2f &D)
+        : A(A), B(B), C(C), D(D){
+        recalculateBoundingRect();
+    }
+
+    void Quad::recalculateBoundingRect() {
+        sf::Vector2f *pts[4] = { &A, &B, &C, &D };
+        sf::Vector2f topLeft = *pts[0];
+        sf::Vector2f bottomRight = *pts[0];
+        for (int i = 0; i < 4; ++i) {
+            topLeft.x = std::min(topLeft.x,pts[i]->x);
+            topLeft.y = std::min(topLeft.y,pts[i]->y);
+            bottomRight.x = std::max(bottomRight.x,pts[i]->x);
+            bottomRight.y = std::max(bottomRight.y,pts[i]->y);
+        }
+        boundingRect.left = topLeft.x;
+        boundingRect.top = topLeft.y;
+        boundingRect.width = bottomRight.x-topLeft.x;
+        boundingRect.height = bottomRight.y-topLeft.y;
+    }
+
     Transform::Transform() {
         m_isDirty = true;
         m_depth = 0.0f;
@@ -39,13 +68,9 @@ namespace MNPCore {
         return m_scale;
     }
 
-    sf::Vector2f Transform::transformPoint(const sf::Vector2f &pt) {
+    Quad Transform::transformQuad(const Quad &quad) {
         updateIfDirty();
-        return m_transform.transformPoint(pt);
-    }
-
-    sf::FloatRect Transform::transformRect(const sf::FloatRect &rect) {
-        updateIfDirty();
-        return m_transform.transformRect(rect);
+        return Quad(m_transform.transformPoint(quad.A),m_transform.transformPoint(quad.B),
+                    m_transform.transformPoint(quad.C),m_transform.transformPoint(quad.D));
     }
 }

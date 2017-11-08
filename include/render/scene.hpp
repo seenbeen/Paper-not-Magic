@@ -32,12 +32,12 @@ namespace MNPRender {
 
     class SceneObject {
     public:
-        const std::string resource;
+        std::string resource;
+
         MNPCore::Transform transform;
 
         SceneObject(const std::string &resource);
         virtual ~SceneObject();
-        virtual sf::Vector2f getResourceOffset();
         virtual void update(const sf::Time &deltaTime);
     };
 }

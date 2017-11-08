@@ -10,8 +10,9 @@ namespace MNPRender {
         struct ImageResource {
             sf::FloatRect normalizedRect;
             sf::FloatRect localRect;
+            sf::Vector2f offset;
             sf::Image resourceData;
-            ImageResource(const sf::Image &image);
+            ImageResource(const sf::Image &image, const sf::Vector2f &offset);
             static bool cmp(const ImageResource *a, const ImageResource *b);
         };
 
@@ -30,7 +31,7 @@ namespace MNPRender {
             Returns false on:
             - The resource already exists
         */
-        bool pushResource(const std::string &resourceKey, const sf::Image &image);
+        bool pushResource(const std::string &resourceKey, const sf::Image &image, const sf::Vector2f &offset);
 
         /*
             Pull a resource from the atlas, effectively removing it from the
@@ -56,7 +57,7 @@ namespace MNPRender {
             - atlas isn't packed
             - resource wasn't found
         */
-        bool getResource(const std::string &resourceKey,  sf::FloatRect &textureRect, bool normalized = true);
+        bool getResource(const std::string &resourceKey,  sf::FloatRect &textureRect, sf::Vector2f &offset, bool normalized = true);
 
         /*
             Do not modify the texture returned by this! It is meant to give a handle

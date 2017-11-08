@@ -43,13 +43,11 @@ namespace MNPRender {
         for (it = m_objects.begin(); it != m_objects.end(); ++it) {
             obj = *it;
             sf::FloatRect textureRect;
-            m_imageAtlas.getResource(obj->resource,textureRect,false);
+            sf::Vector2f offset;
+            m_imageAtlas.getResource(obj->resource,textureRect,offset,false);
             // will actually break on rotations right now!
-            sf::Vector2f offset = obj->getResourceOffset();
-            sf::FloatRect originalImageRect = sf::FloatRect(offset.x,offset.y,textureRect.width,textureRect.height);
-            sf::FloatRect imageRect = obj->transform.transformRect(originalImageRect);
-
-            m_batcherizer.push(imageRect,textureRect,obj->transform.depth());
+            MNPCore::Quad originalQuad(sf::FloatRect(offset.x,offset.y,textureRect.width,textureRect.height));
+            m_batcherizer.push(obj->transform.transformQuad(originalQuad),textureRect,obj->transform.depth());
         }
         m_batcherizer.batcherize();
         std::vector<sf::VertexArray> batches = m_batcherizer.getBatches();
@@ -60,10 +58,6 @@ namespace MNPRender {
 
     SceneObject::SceneObject(const std::string &resource) : resource(resource) {}
     SceneObject::~SceneObject() {}
-
-    sf::Vector2f SceneObject::getResourceOffset() {
-        return sf::Vector2f();
-    }
 
     void SceneObject::update(const sf::Time &deltaTime) {}
 }

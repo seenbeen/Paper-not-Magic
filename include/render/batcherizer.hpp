@@ -3,14 +3,16 @@
 #include <vector>
 #include <list>
 
+#include <core/math.hpp>
+
 namespace MNPRender {
     class Batcherizer {
         struct BatchBundle {
-            sf::FloatRect _imageRect;
+            MNPCore::Quad _vertices;
             sf::FloatRect _textureRect;
             float _depth;
             unsigned int _layersInfrontOf;
-            BatchBundle(const sf::FloatRect &imageRect, const sf::FloatRect &textureRect, float depth);
+            BatchBundle(const MNPCore::Quad &vertices, const sf::FloatRect &textureRect, float depth);
             static bool batchBundleDepthCmp(const BatchBundle *a, const BatchBundle *b);
         };
 
@@ -21,7 +23,7 @@ namespace MNPRender {
         Batcherizer();
         ~Batcherizer();
 
-        void push(const sf::FloatRect &imageRect, const sf::FloatRect &textureRect, float depth);
+        void push(const MNPCore::Quad &vertices, const sf::FloatRect &textureRect, float depth);
 
         /*
             Batcherizes and also flushes all pushed batch bundles.
