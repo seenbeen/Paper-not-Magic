@@ -20,5 +20,10 @@
 *.out
 *.app
 
+# Code::Blocks project stuffs
 *.depend
 *.layout
+
+# Project obj and build directories
+bin/
+obj/
