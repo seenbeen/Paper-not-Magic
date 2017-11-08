@@ -1,5 +1,9 @@
 # depslib dependency file v1.0
+<<<<<<< HEAD
 1510117469 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\main.cpp
+=======
+1510128447 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\main.cpp
+>>>>>>> Rotations now supported in batcherizer
 	<SFML/graphics.hpp>
 	<iostream>
 	<fstream>
@@ -411,7 +415,7 @@
 1506810638 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\core\finitestatemachine.cpp
 	<core/finitestatemachine.hpp>
 
-1507090180 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\core\finitestatemachine.hpp
+1510128218 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\core\finitestatemachine.hpp
 	<cstdlib>
 	<map>
 	<vector>
@@ -422,34 +426,42 @@
 
 1507095379 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\core\game.hpp
 
-1507090052 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\core\engine.cpp
+1510128218 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\core\engine.cpp
 	<core/engine.hpp>
 
-1507092031 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\core\engine.hpp
+1510128218 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\core\engine.hpp
 	<vector>
 	<core/finitestatemachine.hpp>
 	<core/stage.hpp>
 
-1507092043 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\core\gameobject.hpp
+1510128218 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\core\gameobject.hpp
 	<list>
 	<core/gameobjectcomponent.hpp>
 
-1507091248 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\core\gameobjectcomponent.hpp
+1510128218 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\core\gameobjectcomponent.hpp
 
 1507095058 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\core\gameobject.cpp
 
 1507094811 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\core\gameobjectcomponent.cpp
 
-1507092046 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\core\stage.hpp
+1510128218 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\core\stage.hpp
 	<list>
 	<core/finitestatemachine.hpp>
 	<core/gameobject.hpp>
 
+<<<<<<< HEAD
 1510116962 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\render\imageatlas.cpp
 	<render/imageatlas.hpp>
 	<cmath>
 
 1510117022 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\render\imageatlas.hpp
+=======
+1510128223 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\render\imageatlas.cpp
+	<render/imageatlas.hpp>
+	<cmath>
+
+1510128223 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\render\imageatlas.hpp
+>>>>>>> Rotations now supported in batcherizer
 	<SFML/graphics.hpp>
 	<string>
 	<map>
@@ -461,24 +473,42 @@
 	<vector>
 	<list>
 
+<<<<<<< HEAD
 1510127691 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\render\batcherizer.cpp
 	<render/batcherizer.hpp>
 
 1510127705 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\render\batcherizer.hpp
+=======
+1510128223 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\render\batcherizer.cpp
+	<render/batcherizer.hpp>
+
+1510128223 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\render\batcherizer.hpp
+>>>>>>> Rotations now supported in batcherizer
 	<SFML/graphics.hpp>
 	<vector>
 	<list>
 	<core/math.hpp>
 
+<<<<<<< HEAD
 1510127562 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\core\math.cpp
 	<core/math.hpp>
 
 1510127634 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\core\math.hpp
+=======
+1510128223 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\core\math.cpp
+	<core/math.hpp>
+
+1510128223 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\core\math.hpp
+>>>>>>> Rotations now supported in batcherizer
 	<SFML/Graphics.hpp>
 
-1510028205 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\render\renderer.cpp
+1510128222 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\render\renderer.cpp
 
+<<<<<<< HEAD
 1510117930 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\render\scene.hpp
+=======
+1510128223 c:\users\shiyang\desktop\portfolio project\matchnprotect\include\render\scene.hpp
+>>>>>>> Rotations now supported in batcherizer
 	<SFML/System.hpp>
 	<SFML/Graphics.hpp>
 	<string>
@@ -487,6 +517,10 @@
 	<render/imageatlas.hpp>
 	<render/batcherizer.hpp>
 
+<<<<<<< HEAD
 1510127995 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\render\scene.cpp
+=======
+1510128223 source:c:\users\shiyang\desktop\portfolio project\matchnprotect\src\render\scene.cpp
+>>>>>>> Rotations now supported in batcherizer
 	<render/scene.hpp>
 

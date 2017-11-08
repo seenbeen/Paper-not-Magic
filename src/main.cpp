@@ -71,12 +71,12 @@ public:
     };
 };
 
-int main() {
-    ImageAtlas atlas;
+static bool loadAtlas(ImageAtlas &atlas) {
     std::ifstream inFile;
     inFile.open("asset/data.xml");
     if (!inFile) {
         std::cout << "rip couldn't find data file" << std::endl;
+        return false;
     }
     std::string k, resource;
     sf::Image img;
@@ -91,17 +91,27 @@ int main() {
         offX >> oX;
         offY >> oY;
         atlas.pushResource(resource,img, sf::Vector2f(oX,oY));
+<<<<<<< HEAD
+=======
+    }
+    return true;
+}
+
+int main() {
+    ImageAtlas atlas;
+    if (!loadAtlas(atlas)) {
+        return -1;
+>>>>>>> Rotations now supported in batcherizer
     }
     atlas.pack();
+
     sf::Texture text = atlas.getTexture();
-    sf::Sprite sprite(text);
     int texWidth = text.getSize().x;
     int texHeight = text.getSize().y;
     std::cout << "Result Dims: " <<  texWidth << "x" << texHeight << std::endl;
-    sf::ContextSettings settings;
-    settings.antialiasingLevel = 8;
+
     sf::RenderWindow window(sf::VideoMode(800, 600), "Seenbeen is(n't) boosted!",
-                            sf::Style::Titlebar | sf::Style::Close, settings);
+                            sf::Style::Titlebar | sf::Style::Close);
 
     Scene myScene(atlas);
     SceneObject *objectA = new SceneObject("asset/testSprites/swingOF_0.png");
