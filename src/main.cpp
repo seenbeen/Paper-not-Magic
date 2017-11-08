@@ -91,8 +91,6 @@ static bool loadAtlas(ImageAtlas &atlas) {
         offX >> oX;
         offY >> oY;
         atlas.pushResource(resource,img, sf::Vector2f(oX,oY));
-<<<<<<< HEAD
-=======
     }
     return true;
 }
@@ -101,7 +99,6 @@ int main() {
     ImageAtlas atlas;
     if (!loadAtlas(atlas)) {
         return -1;
->>>>>>> Rotations now supported in batcherizer
     }
     atlas.pack();
 
