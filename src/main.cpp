@@ -1,9 +1,10 @@
-#include <SFML/graphics.hpp>
 #include <iostream>
 #include <fstream>
 #include <vector>
 #include <string>
 #include <sstream>
+
+#include <SFML/graphics.hpp>
 
 #include <core/engine-config.hpp>
 #include <core/engine.hpp>
@@ -157,3 +158,4 @@ int main() {
     engine.shutdown();
     return 0;
 }
+
