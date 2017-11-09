@@ -1,4 +1,4 @@
-#include <render/imageatlas.hpp>
+#include <render/image-atlas.hpp>
 #include <cmath>
 
 namespace MNPRender {

@@ -5,11 +5,12 @@
 #include <string>
 #include <sstream>
 
+#include <core/engine-config.hpp>
 #include <core/engine.hpp>
 #include <core/stage.hpp>
-#include <core/gameobject.hpp>
-#include <core/gameobjectcomponent.hpp>
-#include <render/imageatlas.hpp>
+#include <core/game-object.hpp>
+#include <core/game-object-component.hpp>
+#include <render/image-atlas.hpp>
 #include <render/scene.hpp>
 
 using namespace MNPCore;
@@ -20,7 +21,7 @@ class ComponentA : public GameObjectComponent<ObjectA> {
 public:
     void onLoad(Engine &engineContext, ObjectA &objContext);
     void onEnter(Engine &engineContext, ObjectA &objContext);
-    void onUpdate(Engine &engineContext, ObjectA &objContext);
+    void onUpdate(Engine &engineContext, ObjectA &objContext, const float &deltaTime);
     void onExit(Engine &engineContext, ObjectA &objContext);
     void onUnload(Engine &engineContext, ObjectA &objContext);
 };
@@ -40,7 +41,7 @@ void ComponentA::onLoad(Engine &engineContext, ObjectA &objContext) {
 void ComponentA::onEnter(Engine &engineContext, ObjectA &objContext) {
     std::cout << "ComponentA on Enter" << std::endl;
 }
-void ComponentA::onUpdate(Engine &engineContext, ObjectA &objContext) {
+void ComponentA::onUpdate(Engine &engineContext, ObjectA &objContext, const float &deltaTime) {
     std::cout << "ComponentA on Update Frame: " << objContext.framesOfExistance++ << std::endl;
     if (objContext.framesOfExistance == 5) {
         engineContext.stop();
@@ -63,7 +64,7 @@ public:
     void onEnter(Engine &engineContext) {
         std::cout << "StageA onEnter" << std::endl;
     };
-    void onUpdate(Engine &engineContext) {
+    void onUpdate(Engine &engineContext, const float &deltaTime) {
         std::cout << "StageA onUpdate" << std::endl;
     };
     void onExit(Engine &EngineContext) {
@@ -96,6 +97,18 @@ static bool loadAtlas(ImageAtlas &atlas) {
 }
 
 int main() {
+    Engine engine;
+
+    std::vector<Stage<EngineStages>*> stages;
+    stages.push_back(new StageA());
+
+    EngineConfig<EngineStages> config(GAME, stages);
+    engine.initialize(&config);
+
+    engine.run();
+
+    engine.shutdown();
+
     ImageAtlas atlas;
     if (!loadAtlas(atlas)) {
         return -1;

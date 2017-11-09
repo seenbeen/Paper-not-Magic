@@ -1,7 +1,7 @@
 #pragma once
 #include <list>
 
-#include <core/gameobjectcomponent.hpp>
+#include <core/game-object-component.hpp>
 
 namespace MNPCore {
     class Engine;
@@ -10,7 +10,7 @@ namespace MNPCore {
         virtual ~BaseGameObject() {}
         virtual void onLoad(Engine &engineContext) = 0;
         virtual void onEnter(Engine &engineContext) = 0;
-        virtual void onUpdate(Engine &engineContext) = 0;
+        virtual void onUpdate(Engine &engineContext, const float &deltaTime) = 0;
         virtual void onExit(Engine &engineContext) = 0;
         virtual void onUnload(Engine &engineContext) = 0;
         virtual bool isDead() = 0;
@@ -50,10 +50,10 @@ namespace MNPCore {
             }
         }
 
-        void onUpdate(Engine &engineContext) {
+        void onUpdate(Engine &engineContext, const float &deltaTime) {
             typename std::list<GameObjectComponent<GameObjContext>*>::iterator it;
             for (it = m_components.begin(); it != m_components.end(); ++it) {
-                (*it)->onUpdate(engineContext, m_objContext);
+                (*it)->onUpdate(engineContext, m_objContext, deltaTime);
             }
         }
 

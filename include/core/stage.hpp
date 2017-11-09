@@ -1,12 +1,11 @@
 #pragma once
 #include <list>
 
-#include <core/finitestatemachine.hpp>
-#include <core/gameobject.hpp>
+#include <core/engine.hpp>
+#include <core/finite-state-machine.hpp>
+#include <core/game-object.hpp>
 
 namespace MNPCore {
-    class Engine;
-
     template <typename StateEnum>
     class Stage : public FSMState<Engine, StateEnum> {
         std::list<BaseGameObject*> m_objects;
@@ -28,7 +27,7 @@ namespace MNPCore {
             }
         }
         virtual void onEnter(Engine &engineContext) = 0;
-        virtual void onUpdate(Engine &engineContext) = 0;
+        virtual void onUpdate(Engine &engineContext, const float &deltaTime) = 0;
         virtual void onExit(Engine &EngineContext) = 0;
 
         void enter(Engine &engineContext) {
@@ -36,7 +35,8 @@ namespace MNPCore {
         }
 
         void update(Engine &engineContext) {
-            onUpdate(engineContext);
+            const float deltaTime = engineContext.getDeltaTime();
+            onUpdate(engineContext,deltaTime);
 
             std::list<BaseGameObject*>::iterator it;
             BaseGameObject *curObject;
@@ -53,7 +53,7 @@ namespace MNPCore {
             // update all current stuff
             for (it = m_objects.begin(); it != m_objects.end(); ++it) {
                 curObject = *it;
-                curObject->onUpdate(engineContext);
+                curObject->onUpdate(engineContext,deltaTime);
             }
 
             // clear out all dead stuff

@@ -5,7 +5,7 @@
 #include <set>
 
 #include <core/math.hpp>
-#include <render/imageatlas.hpp>
+#include <render/image-atlas.hpp>
 #include <render/batcherizer.hpp>
 
 namespace MNPRender {
