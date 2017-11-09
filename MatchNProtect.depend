@@ -394,18 +394,18 @@
 	<string>
 	<vector>
 
-1509957071 c:\users\ashka\desktop\project\match-n-protect\include\mnp\uielements.hpp
-	<vector>
+1510111504 c:\users\ashka\desktop\project\match-n-protect\include\mnp\uielements.hpp
 	<SFML/Graphics.hpp>
 	<mnp/shapes.hpp>
 	<list>
 	<mnp/InputSystem.hpp>
+	<mnp/UIContext.hpp>
 
 1509756063 c:\users\ashka\desktop\project\match-n-protect\include\mnp\shapes.hpp
 	<vector>
 	<SFML/Graphics.hpp>
 
-1509956347 c:\users\ashka\desktop\project\match-n-protect\include\mnp\inputsystem.hpp
+1510111280 c:\users\ashka\desktop\project\match-n-protect\include\mnp\inputsystem.hpp
 	<SFML/Graphics.hpp>
 	<list>
 	<mnp/shapes.hpp>
@@ -426,7 +426,7 @@
 1505589538 c:\users\ashka\desktop\project\match-n-protect\include\mnp\tower.hpp
 	<SFML/Graphics.hpp>
 
-1509956277 source:c:\users\ashka\desktop\project\match-n-protect\src\inputsystem.cpp
+1510111331 source:c:\users\ashka\desktop\project\match-n-protect\src\inputsystem.cpp
 	<SFML/Graphics.hpp>
 	<mnp/InputSystem.hpp>
 	<list>
@@ -438,11 +438,17 @@
 	<mnp/UIDemo.hpp>
 	<mnp/InputSystem.hpp>
 
-1509955037 source:c:\users\ashka\desktop\project\match-n-protect\src\uielements.cpp
+1509957244 source:c:\users\ashka\desktop\project\match-n-protect\src\uielements.cpp
 	<mnp/uiElements.hpp>
 	<algorithm>
 	<vector>
 	<SFML/Graphics.hpp>
 	<mnp/shapes.hpp>
 	<iostream>
+
+1510109654 c:\users\ashka\desktop\project\match-n-protect\include\mnp\uicontext.hpp
+
+1510111420 source:c:\users\ashka\desktop\project\match-n-protect\src\uicontext.cpp
+	<mnp/InputSystem.hpp>
+	<mnp/UIContext.hpp>
 

@@ -9,15 +9,13 @@
 
 //UI Components
 
-UIComponent::UIComponent(int x,int y,int l,int h, BaseUIContext* context) : m_rect(x,y,l,h),m_context(context){
-    std::cout <<m_context<<std::endl;}
+UIComponent::UIComponent(int x,int y,int l,int h, BaseUIContext* context) : m_rect(x,y,l,h),m_context(context){}
 
 UIComponent::~UIComponent(){
-    //delete m_rect;
-    /*
+
     for (std::list<UIComponent*>::iterator it = m_children.begin(); it != m_children.end(); it++) {
         delete (*it);
-    }*/
+    }
 }
 
 bool UIComponent::addComponent(UIComponent *newChild) {
@@ -78,7 +76,7 @@ UIBox::UIBox(int x,int y,int l,int h,BaseUIContext* context) : UIComponent(x,y,l
 }
 UIBox::~UIBox() {
     //UIComponent::~UIComponent()
-    //delete(m_drawShape)
+    delete(m_context);
 
 }
 void UIBox::receiveRender(sf::RenderWindow &window){
@@ -109,7 +107,10 @@ void UIButton::receiveUpdate(sf::Time deltaTime){
 
 
 UIRoot::UIRoot(int x,int y,int l,int h,BlankContext* context) : UIComponent(x,y,l,h,context),m_context(context) {}
-UIRoot::~UIRoot(){}
+
+UIRoot::~UIRoot(){
+    delete(m_context);
+}
 void UIRoot::receiveRender(sf::RenderWindow &window){}
 void UIRoot::receiveUpdate(sf::Time deltaTime){}
 
@@ -180,7 +181,9 @@ UITextInputBox::UITextInputBox(int x,int y,int l,int h,UIClickableContext* conte
     focus = false;
 };
 
-UITextInputBox::~UITextInputBox(){}
+UITextInputBox::~UITextInputBox(){
+    delete(m_context);
+}
 /*
 bool UITextInputBox::receiveEvent(sf::Event *event, Point offSet) {
     std::cout << "\n TEXT WA: " <<inputText << std::endl;
@@ -228,4 +231,6 @@ void UITextInputBox::receiveRender(sf::RenderWindow &window){
 
 
 }
-void UITextInputBox::receiveUpdate(sf::Time deltaTime){}
+void UITextInputBox::receiveUpdate(sf::Time deltaTime){
+
+}
