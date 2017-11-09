@@ -28,9 +28,9 @@ public:
 
 class ObjectA : public GameObject<ObjectA> {
 public:
-    int framesOfExistance;
+    float timeOfExistence;
     ObjectA() : GameObject(*this) {
-        framesOfExistance = 0;
+        timeOfExistence = 0;
         addComponent(new ComponentA());
     }
 };
@@ -42,10 +42,11 @@ void ComponentA::onEnter(Engine &engineContext, ObjectA &objContext) {
     std::cout << "ComponentA on Enter" << std::endl;
 }
 void ComponentA::onUpdate(Engine &engineContext, ObjectA &objContext, const float &deltaTime) {
-    std::cout << "ComponentA on Update Frame: " << objContext.framesOfExistance++ << std::endl;
-    if (objContext.framesOfExistance == 5) {
+    if (objContext.timeOfExistence >= 5.0f) {
         engineContext.stop();
     }
+    objContext.timeOfExistence += deltaTime;
+    //std::cout << "ComponentA on Update Frame: " << objContext.timeOfExistence << std::endl;
 }
 void ComponentA::onExit(Engine &engineContext, ObjectA &objContext) {
     std::cout << "ComponentA on Exit" << std::endl;
@@ -65,7 +66,7 @@ public:
         std::cout << "StageA onEnter" << std::endl;
     };
     void onUpdate(Engine &engineContext, const float &deltaTime) {
-        std::cout << "StageA onUpdate" << std::endl;
+        // std::cout << "StageA onUpdate" << std::endl;
     };
     void onExit(Engine &EngineContext) {
         std::cout << "StageA onExit" << std::endl;
@@ -96,34 +97,7 @@ static bool loadAtlas(ImageAtlas &atlas) {
     return true;
 }
 
-int main() {
-    Engine engine;
-
-    std::vector<Stage<EngineStages>*> stages;
-    stages.push_back(new StageA());
-
-    EngineConfig<EngineStages> config(GAME, stages);
-    engine.initialize(&config);
-
-    engine.run();
-
-    engine.shutdown();
-
-    ImageAtlas atlas;
-    if (!loadAtlas(atlas)) {
-        return -1;
-    }
-    atlas.pack();
-
-    sf::Texture text = atlas.getTexture();
-    int texWidth = text.getSize().x;
-    int texHeight = text.getSize().y;
-    std::cout << "Result Dims: " <<  texWidth << "x" << texHeight << std::endl;
-
-    sf::RenderWindow window(sf::VideoMode(800, 600), "Seenbeen is(n't) boosted!",
-                            sf::Style::Titlebar | sf::Style::Close);
-
-    Scene myScene(atlas);
+static void setupScene(Scene &myScene) {
     SceneObject *objectA = new SceneObject("asset/testSprites/swingOF_0.png");
     objectA->transform.depth() = 1.0f;
     objectA->transform.position() += sf::Vector2f(400.0f,150.0f);
@@ -140,8 +114,32 @@ int main() {
     objectC->transform.scale() *= 2.5f;
     objectC->transform.rotation() = 45.5f;
     myScene.addObject(objectC);
+}
 
-    while (window.isOpen())
+int main() {
+    Engine engine;
+
+    std::vector<Stage<EngineStages>*> stages;
+    stages.push_back(new StageA());
+
+    EngineConfig<EngineStages> config(GAME, stages);
+    engine.initialize(&config);
+
+    ImageAtlas atlas;
+    if (!loadAtlas(atlas)) {
+        return -1;
+    }
+    atlas.pack();
+
+    sf::Texture text = atlas.getTexture();
+    int texWidth = text.getSize().x;
+    int texHeight = text.getSize().y;
+    std::cout << "Result Dims: " <<  texWidth << "x" << texHeight << std::endl;
+
+    Scene myScene(atlas);
+    setupScene(myScene);
+    engine.getRenderer().addScene("testScene",myScene);
+    /*while (window.isOpen())
     {
         sf::Event event;
         while (window.pollEvent(event))
@@ -153,7 +151,9 @@ int main() {
         window.clear();
         myScene.render(window);
         window.display();
-    }
+    }*/
 
+    engine.run();
+    engine.shutdown();
     return 0;
 }

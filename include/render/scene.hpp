@@ -26,7 +26,7 @@ namespace MNPRender {
         ~Scene();
         bool addObject(SceneObject *object);
         bool removeObject(SceneObject *object);
-        void update(const sf::Time &deltaTime);
+        void update(const float &deltaTime);
         void render(sf::RenderTarget &renderTarget);
     };
 
@@ -38,6 +38,6 @@ namespace MNPRender {
 
         SceneObject(const std::string &resource);
         virtual ~SceneObject();
-        virtual void update(const sf::Time &deltaTime);
+        virtual void update(const float &deltaTime);
     };
 }

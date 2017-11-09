@@ -30,7 +30,7 @@ namespace MNPRender {
         return true;
     }
 
-    void Scene::update(const sf::Time &deltaTime) {
+    void Scene::update(const float &deltaTime) {
         std::set<SceneObject*>::iterator it;
         for (it = m_objects.begin(); it != m_objects.end(); ++it) {
             (*it)->update(deltaTime);
@@ -59,5 +59,5 @@ namespace MNPRender {
     SceneObject::SceneObject(const std::string &resource) : resource(resource) {}
     SceneObject::~SceneObject() {}
 
-    void SceneObject::update(const sf::Time &deltaTime) {}
+    void SceneObject::update(const float &deltaTime) {}
 }

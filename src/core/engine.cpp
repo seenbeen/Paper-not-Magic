@@ -7,7 +7,7 @@ namespace MNPCore {
 
     void Engine::initialize(BaseEngineConfig *config) {
         m_fsm = config->makeFSM();
-        //m_renderer = new MNPRender::Renderer();
+        m_renderer = new MNPRender::Renderer();
         m_isInitialized = true;
     }
 
@@ -23,7 +23,7 @@ namespace MNPCore {
             m_deltaTime = m_clock.restart().asSeconds();
             // m_input->update(m_deltaTime);
             m_fsm->update(*this);
-            //m_renderer->update(m_deltaTime);
+            m_renderer->update(m_deltaTime);
         }
     }
 
@@ -38,13 +38,17 @@ namespace MNPCore {
         m_fsm->destroy(*this);
 
         // shutdown each subsystem instance
-        //delete m_renderer;
-        //m_renderer = NULL;
+        delete m_renderer;
+        m_renderer = NULL;
 
         m_isInitialized = false;
     }
 
     float Engine::getDeltaTime() {
         return m_deltaTime;
+    }
+
+    MNPRender::Renderer &Engine::getRenderer() {
+        return *m_renderer;
     }
 }

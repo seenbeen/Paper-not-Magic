@@ -1,4 +1,6 @@
 #pragma once
+#include <string>
+#include <map>
 #include <SFML/Graphics.hpp>
 #include <render/scene.hpp>
 //#include <render/compositing.hpp>
@@ -23,6 +25,6 @@ namespace MNPRender {
         bool removeCompositingTrees(const std::string &treeName);
         CompositingTree *getCompositingTree(const std::string &treeName);*/
 
-        void update(const sf::Time &deltaTime);
+        void update(const float &deltaTime);
     };
 }
