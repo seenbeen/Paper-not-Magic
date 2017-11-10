@@ -6,13 +6,22 @@
 #include <engine/render/scene.hpp>
 
 namespace MNPRender {
-    /*
-        For now, blatantly hard-coded window dimensions n stuff...
-        Later on we'll come back to adjust this stuff and make it customizable
-    */
-    Renderer::Renderer()
-        : m_window(sf::VideoMode(800, 600), "Seenbeen is(n't) boosted!",
-                   sf::Style::Titlebar | sf::Style::Close) {}
+    void Renderer::renderDebugShapes(const float &deltaTime) {
+        std::list<std::pair<sf::Shape*,float> >::iterator it;
+        it = m_debugShapes.begin();
+        while (it != m_debugShapes.end()) {
+            m_window.draw(*it->first);
+            it->second -= deltaTime;
+            if (it->second <= 0.0f) {
+                delete it->first;
+                it = m_debugShapes.erase(it);
+            } else {
+                ++it;
+            }
+        }
+    }
+
+    Renderer::Renderer(sf::RenderWindow &window) : m_window(window) {}
 
     Renderer::~Renderer() {
         // scenes and compositing trees do not belong to the renderer per se
@@ -63,7 +72,22 @@ namespace MNPRender {
             it->second->update(deltaTime);
             it->second->render(m_window);
         }
+
+        renderDebugShapes(deltaTime);
         m_window.display();
+    }
+
+    void Renderer::debugCircleShape(const sf::CircleShape &shape, const float &duration) {
+        sf::Shape *shape_copy = new sf::CircleShape(shape);
+        m_debugShapes.push_back(std::pair<sf::Shape*,float>(shape_copy,duration));
+    }
+    void Renderer::debugRectangleShape(const sf::RectangleShape &shape, const float &duration) {
+        sf::Shape *shape_copy = new sf::RectangleShape(shape);
+        m_debugShapes.push_back(std::pair<sf::Shape*,float>(shape_copy,duration));
+    }
+    void Renderer::debugConvexShape(const sf::ConvexShape &shape, const float &duration) {
+        sf::Shape *shape_copy = new sf::ConvexShape(shape);
+        m_debugShapes.push_back(std::pair<sf::Shape*,float>(shape_copy,duration));
     }
 }
 

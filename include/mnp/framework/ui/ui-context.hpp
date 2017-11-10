@@ -1,4 +1,6 @@
 #pragma once
+#include <SFML/Window/Event.hpp>
+#include <mnp/framework/ui/shapes.hpp>
 
 class BaseUIContext : public MNPInput::InputContext {
     bool focusFlag;
@@ -6,8 +8,8 @@ public:
     // Used by ui to re-order rendering
     // Will reset focus state when called
     bool getFocus();
-    bool wantsFocus(sf::Event *event);
-    virtual bool wantsFocusImpl(sf::Event *event) = 0;
+    bool wantsFocus(const sf::Event &event);
+    virtual bool wantsFocusImpl(const sf::Event &event) = 0;
 
 };
 
@@ -23,20 +25,20 @@ public:
 
     void setRect(Rectangle r);
 
-    bool handleInput(sf::Event *event);
+    bool handleInput(const sf::Event &event);
 
-    void update(sf::Time deltaTime);
+    void update(const float &deltaTime);
 
-    bool wantsFocusImpl(sf::Event *event);
+    bool wantsFocusImpl(const sf::Event &event);
 };
 
 
 class BlankContext : public BaseUIContext {
 public:
-    bool handleInput(sf::Event *event);
-    void update(sf::Time deltaTime);
+    bool handleInput(const sf::Event &event);
+    void update(const float &deltaTime);
 
-    bool wantsFocusImpl(sf::Event *event);
+    bool wantsFocusImpl(const sf::Event &event);
 };
 /*
 
@@ -50,11 +52,11 @@ public:
 
     std::list<sf::Keyboard::Key*> inputKeys;
 
-    void update(sf::Time deltaTime);
-    bool handleInput(sf::Event *event);
-    bool wantsFocusImpl(sf::Event *event);
+    void update(const float &deltaTime);
+    bool handleInput(const sf::Event &event);
+    bool wantsFocusImpl(const sf::Event &event);
 
-    virtual bool checkEnter(sf::Event *event) = 0;
-    virtual int checkExit(sf::Event *event) = 0;
+    virtual bool checkEnter(const sf::Event &event) = 0;
+    virtual int checkExit(const sf::Event &event) = 0;
 };
 */

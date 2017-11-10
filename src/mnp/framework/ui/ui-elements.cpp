@@ -41,7 +41,7 @@ bool UIComponent::removeComponent(UIComponent *removeChild) {
 }
 
 
-void UIComponent::update(sf::Time deltaTime){
+void UIComponent::update(const float &deltaTime){
     receiveUpdate(deltaTime);
     std::list<UIComponent*>::iterator moveForward;
     bool moveToForward = false;
@@ -99,7 +99,7 @@ UIButton::UIButton(int x,int y,int l,int h,UIClickableContext* context) : UIBox(
     m_context->setRect(m_rect);
 };
 UIButton::~UIButton(){}
-void UIButton::receiveUpdate(sf::Time deltaTime){
+void UIButton::receiveUpdate(const float &deltaTime){
 
     if (m_context->clicked == true){
         changeColor(sf::Color(std::rand()%255,std::rand()%255,std::rand()%255));
@@ -114,7 +114,7 @@ UIRoot::~UIRoot(){
     delete(m_context);
 }
 void UIRoot::receiveRender(sf::RenderWindow &window){}
-void UIRoot::receiveUpdate(sf::Time deltaTime){}
+void UIRoot::receiveUpdate(const float &deltaTime){}
 
 UIHandler::UIHandler(MNPInput::InputHandler* inputParent){
     m_rootcontext = new BlankContext();
@@ -136,7 +136,7 @@ bool UIHandler::bindRootUI(UIComponent *rootUI) {
     return true;
 }
 
-void UIHandler::update(sf::Time deltaTime) {
+void UIHandler::update(const float &deltaTime) {
     if (m_root != NULL) {
 
         m_root->update(deltaTime);
@@ -154,14 +154,14 @@ void UIHandler::render(sf::RenderWindow &window){
 
 
 /*
-bool UIButton::receiveEvent(sf::Event *event, Point offSet) {
-    //std::cout << event->type << std::endl;
-    if (event->type == sf::Event::MouseButtonPressed){
+bool UIButton::receiveEvent(const sf::Event &event, Point offSet) {
+    //std::cout << event.type << std::endl;
+    if (event.type == sf::Event::MouseButtonPressed){
 
 
-        if (event->mouseButton.button == sf::Mouse::Left){
+        if (event.mouseButton.button == sf::Mouse::Left){
 
-            Point mouseClick(event->mouseButton.x,event->mouseButton.y);
+            Point mouseClick(event.mouseButton.x,event.mouseButton.y);
 
             if (collides(mouseClick, offSet)){
                 changeColor(sf::Color(std::rand()%255,std::rand()%255,std::rand()%255));
@@ -185,15 +185,15 @@ UITextInputBox::~UITextInputBox(){
     delete(m_context);
 }
 /*
-bool UITextInputBox::receiveEvent(sf::Event *event, Point offSet) {
+bool UITextInputBox::receiveEvent(const sf::Event &event, Point offSet) {
     std::cout << "\n TEXT WA: " <<inputText << std::endl;
     if (focus==true){
 
-        if ((event->type == sf::Event::KeyPressed)&&(event->key.code == sf::Keyboard::Tilde)){
+        if ((event.type == sf::Event::KeyPressed)&&(event.key.code == sf::Keyboard::Tilde)){
             focus=true;
             return false;
         }
-        else if ((event->type == sf::Event::KeyPressed)&&(event->key.code == sf::Keyboard::BackSpace)){
+        else if ((event.type == sf::Event::KeyPressed)&&(event.key.code == sf::Keyboard::BackSpace)){
             if (inputText.size () > 0){
                 inputText.resize (inputText.size () - 1);
                 return false;
@@ -201,22 +201,22 @@ bool UITextInputBox::receiveEvent(sf::Event *event, Point offSet) {
             }
 
         }
-        else if ((event->type == sf::Event::KeyPressed)&&(event->key.code == sf::Keyboard::Return)){
+        else if ((event.type == sf::Event::KeyPressed)&&(event.key.code == sf::Keyboard::Return)){
             std::cout << inputText << std::endl;
             return false;
 
         }
-        else if (event->type == sf::Event::TextEntered){
+        else if (event.type == sf::Event::TextEntered){
                 //std::cout << "You Typed somethn" << std::endl;
-            if (event->text.unicode < 128){
-                inputText= inputText + static_cast<char>(event->text.unicode);
+            if (event.text.unicode < 128){
+                inputText= inputText + static_cast<char>(event.text.unicode);
                 return false;
             }
         }
     }
 
     else{
-        if ((event->type == sf::Event::KeyPressed) && (event->key.code == sf::Keyboard::Tilde)){
+        if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Tilde)){
             focus=true;
             return false;
         }
@@ -231,6 +231,6 @@ void UITextInputBox::receiveRender(sf::RenderWindow &window){
 
 
 }
-void UITextInputBox::receiveUpdate(sf::Time deltaTime){
+void UITextInputBox::receiveUpdate(const float &deltaTime){
 
 }

@@ -1,10 +1,12 @@
 #pragma once
 #include <list>
+
 #include <SFML/Graphics.hpp>
+
 #include <engine/input/input-system.hpp>
 
-#include <mnp/framework/ui/ui-context.hpp>
 #include <mnp/framework/ui/shapes.hpp>
+#include <mnp/framework/ui/ui-context.hpp>
 
 class UIComponent {
 
@@ -28,10 +30,10 @@ public:
 
     void render(sf::RenderWindow &window);
 
-    void update(sf::Time deltaTime);
+    void update(const float &deltaTime);
 
     virtual void receiveRender(sf::RenderWindow &window) = 0;
-    virtual void receiveUpdate(sf::Time deltaTime) = 0;
+    virtual void receiveUpdate(const float &deltaTime) = 0;
 
 };
 
@@ -60,9 +62,9 @@ public:
     void onClick();
 
 
-    bool receiveEvent(sf::Event *event);
+    bool receiveEvent(const sf::Event &event);
     //void receiveRender(sf::RenderWindow &window, Point &offSet);
-    void receiveUpdate(sf::Time deltaTime);
+    void receiveUpdate(const float &deltaTime);
 
 
 };
@@ -74,9 +76,9 @@ class UITextInputBox : public UIComponent {
 public:
     UITextInputBox(int x,int y,int l,int h,UIClickableContext* context);
     ~UITextInputBox();
-    bool receiveEvent(sf::Event *event);
+    bool receiveEvent(const sf::Event &event);
     void receiveRender(sf::RenderWindow &window);
-    void receiveUpdate(sf::Time deltaTime);
+    void receiveUpdate(const float &deltaTime);
 };
 
 class UIRoot : public UIComponent{
@@ -87,7 +89,7 @@ public:
     ~UIRoot();
 
     void receiveRender(sf::RenderWindow &window);
-    void receiveUpdate(sf::Time deltaTime);
+    void receiveUpdate(const float &deltaTime);
 };
 
 class UIHandler {
@@ -100,7 +102,7 @@ public:
 
     bool bindRootUI(UIComponent *rootUI);
 
-    void update(sf::Time deltaTime);
+    void update(const float &deltaTime);
     void render(sf::RenderWindow &window);
 
 

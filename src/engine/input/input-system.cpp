@@ -1,20 +1,22 @@
-#include <SFML/Graphics.hpp>
-#include <engine/input/input-system.hpp>
 #include <list>
 #include <iostream>
 
+#include <SFML/Graphics.hpp>
+
+#include <engine/input/input-system.hpp>
+
 namespace MNPInput {
+    InputHandler::InputHandler() {}
+
+    InputHandler::~InputHandler() {}
+
     bool InputHandler::addReceiver(InputContext *newReceiver){
         m_receivers.push_back(newReceiver);
         return true;
 
     }
 
-    void InputHandler::sendEvent(sf::Event *event){
-        if (event->type == sf::Event::MouseButtonPressed){
-            std::cout << "Handler Received Click" <<std::endl;
-        }
-
+    void InputHandler::sendEvent(const sf::Event &event){
         std::list<InputContext*>::iterator it = m_receivers.begin();
         while(it != m_receivers.end() && (*it)->propogateToChildren(event)){
             it++;
@@ -22,7 +24,8 @@ namespace MNPInput {
 
 
     }
-    void InputHandler::update(sf::Time deltaTime){
+
+    void InputHandler::update(const float &deltaTime){
         for (std::list<InputContext*>::iterator it = m_receivers.begin(); it != m_receivers.end(); it++) {
             (*it)->propogateUpdate(deltaTime);
         }
@@ -36,7 +39,7 @@ namespace MNPInput {
         return true;
     }
 
-    bool InputContext::propogateToChildren(sf::Event *event){
+    bool InputContext::propogateToChildren(const sf::Event &event){
         if (handleInput(event) == false){
             return false;
         };
@@ -52,7 +55,8 @@ namespace MNPInput {
         }
         return true;
     }
-    void InputContext::propogateUpdate(sf::Time deltaTime){
+
+    void InputContext::propogateUpdate(const float &deltaTime){
         update(deltaTime);
         for (std::list<InputContext*>::iterator it = m_children.begin(); it != m_children.end(); it++) {
             (*it)->propogateUpdate(deltaTime);

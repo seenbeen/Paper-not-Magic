@@ -3,17 +3,22 @@
 
 #include <engine/core/finite-state-machine.hpp>
 #include <engine/render/renderer.hpp>
+#include <engine/input/input-system.hpp>
 
 namespace MNPCore {
     class BaseEngineConfig;
 
     class Engine {
+        BaseFSM<Engine> *m_fsm;
+        sf::Clock m_clock;
         bool m_isInitialized;
         bool m_isRunning;
-        BaseFSM<Engine> *m_fsm;
-        MNPRender::Renderer *m_renderer;
-        sf::Clock m_clock;
         float m_deltaTime;
+
+        sf::RenderWindow *m_window;
+
+        MNPRender::Renderer *m_renderer;
+        MNPInput::InputHandler *m_inputHandler;
 
     public:
         Engine();
@@ -25,5 +30,6 @@ namespace MNPCore {
         // expose some getters to access engine modules
         float getDeltaTime();
         MNPRender::Renderer &getRenderer();
+        MNPInput::InputHandler &getInputHandler();
     };
 }

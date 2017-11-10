@@ -42,7 +42,7 @@ int UIDemo::run()
         while (window.pollEvent(event))
         {
 
-            t->sendEvent(&event);
+            t->sendEvent(event);
             //myUI->sendEvent(&event);
             if (event.type == sf::Event::Closed)
                 window.close();
@@ -52,10 +52,10 @@ int UIDemo::run()
 
         window.clear();
 
-        myUI->update(elapsed);
+        myUI->update(elapsed.asSeconds());
         myUI->render(window);
 
-        t->update(elapsed);
+        t->update(elapsed.asSeconds());
 
         window.display();
     }
