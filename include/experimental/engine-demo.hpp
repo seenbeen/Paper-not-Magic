@@ -20,10 +20,7 @@ namespace Experimental { namespace EngineDemos {
     class ObjectA : public GameObject<ObjectA> {
     public:
         float timeOfExistence;
-        ObjectA() : GameObject(*this) {
-            timeOfExistence = 0;
-            addComponent(new ComponentA());
-        }
+        ObjectA();
     };
 
     enum EngineStages { MENU, GAME };

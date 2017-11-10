@@ -4,19 +4,16 @@
 #include <SFML/Graphics.hpp>
 
 #include <engine/input/input-system.hpp>
+#include <engine/core/game-object.hpp>
 
-#include <mnp/framework/ui/shapes.hpp>
 #include <mnp/framework/ui/ui-context.hpp>
 
 class UIComponent {
-
 protected:
-    Rectangle m_rect;
+    sf::FloatRect m_rect;
     std::list<UIComponent*> m_children;
 
-
 public:
-
     BaseUIContext *m_context;
 
     UIComponent(int x,int y,int l,int h,BaseUIContext *context);
@@ -41,38 +38,33 @@ class UIBox : public UIComponent{
 protected:
     sf::RectangleShape m_drawShape;
     BaseUIContext *m_context;
+
 public:
     UIBox(int x,int y,int l,int w,BaseUIContext* context);
     ~UIBox();
 
     void receiveRender(sf::RenderWindow &window);
     void changeColor(sf::Color newColor);
-    //bool propagate(sf::Event &event);
 };
 
 class UIButton : public UIBox {
-
     UIClickableContext* m_context;
+
 public:
-
-
     UIButton(int x,int y,int l,int h,UIClickableContext* context);
     ~UIButton();
 
     void onClick();
 
-
     bool receiveEvent(const sf::Event &event);
-    //void receiveRender(sf::RenderWindow &window, Point &offSet);
     void receiveUpdate(const float &deltaTime);
-
-
 };
 
 class UITextInputBox : public UIComponent {
     std::string inputText;
     bool focus;
     UIClickableContext* m_context;
+
 public:
     UITextInputBox(int x,int y,int l,int h,UIClickableContext* context);
     ~UITextInputBox();
@@ -95,7 +87,7 @@ public:
 class UIHandler {
     UIComponent *m_root;
     MNPInput::InputContext *m_rootcontext;
-    //game;
+
 public:
     UIHandler(MNPInput::InputHandler* inputParent);
     ~UIHandler();
@@ -104,6 +96,4 @@ public:
 
     void update(const float &deltaTime);
     void render(sf::RenderWindow &window);
-
-
 };

@@ -1,3 +1,5 @@
+#include <SFML/System.hpp>
+
 #include <engine/input/input-system.hpp>
 #include <mnp/framework/ui/ui-context.hpp>
 
@@ -21,14 +23,13 @@ bool UIClickableContext::wantsFocusImpl(const sf::Event &event){
 bool UIClickableContext::handleInput(const sf::Event &event){
     if (event.type == sf::Event::MouseButtonPressed){
         if (event.mouseButton.button == sf::Mouse::Left){
-            if (m_MyRect.collide(event.mouseButton.x,event.mouseButton.y)){
+            if (m_MyRect.contains(event.mouseButton.x,event.mouseButton.y)){
                 clicked=true;
                 return false;
             }
         }
     }
     return true;
-
 }
 
 bool BlankContext::handleInput(const sf::Event &event){
@@ -44,7 +45,7 @@ void UIClickableContext::update(const float &deltaTime){
     clicked = false;
 }
 
-void UIClickableContext::setRect(Rectangle r){
+void UIClickableContext::setRect(const sf::FloatRect &r){
     m_MyRect = r;
 }
 

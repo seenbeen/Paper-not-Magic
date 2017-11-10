@@ -4,9 +4,9 @@
 using namespace Experimental;
 
 int main() {
-    //EngineDemos::EngineDemoA engineDemoA;
-    //return engineDemoA.run();
-    UIDemo uiDemo;
-    return uiDemo.run();
+    EngineDemos::EngineDemoA engineDemoA;
+    return engineDemoA.run();
+    //UIDemo uiDemo;
+    //return uiDemo.run();
 }
 

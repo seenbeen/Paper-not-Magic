@@ -21,9 +21,11 @@ namespace Experimental { namespace EngineDemos {
     void ComponentA::onLoad(Engine &engineContext, ObjectA &objContext) {
         std::cout << "ComponentA on Load" << std::endl;
     }
+
     void ComponentA::onEnter(Engine &engineContext, ObjectA &objContext) {
         std::cout << "ComponentA on Enter" << std::endl;
     }
+
     void ComponentA::onUpdate(Engine &engineContext, ObjectA &objContext, const float &deltaTime) {
         if (objContext.timeOfExistence >= 5.0f) {
             engineContext.stop();
@@ -31,25 +33,37 @@ namespace Experimental { namespace EngineDemos {
         objContext.timeOfExistence += deltaTime;
         //std::cout << "ComponentA on Update Frame: " << objContext.timeOfExistence << std::endl;
     }
+
     void ComponentA::onExit(Engine &engineContext, ObjectA &objContext) {
         std::cout << "ComponentA on Exit" << std::endl;
     }
+
     void ComponentA::onUnload(Engine &engineContext, ObjectA &objContext) {
         std::cout << "ComponentA on Unload" << std::endl;
+    }
+
+    ObjectA::ObjectA() : GameObject(*this) {
+        timeOfExistence = 0;
+        addComponent(new ComponentA());
     }
 
     StageA::StageA() : Stage(GAME) {
         addObject(new ObjectA());
     }
+
     void StageA::onEnter(Engine &engineContext) {
         std::cout << "StageA onEnter" << std::endl;
-    };
-    void StageA::onUpdate(Engine &engineContext, const float &deltaTime) {
-        // std::cout << "StageA onUpdate" << std::endl;
-    };
+        sf::RectangleShape debugShape(sf::Vector2f(100,80));
+        debugShape.setFillColor(sf::Color::Green);
+        debugShape.setPosition(sf::Vector2f(400-50,300-40));
+        engineContext.getRenderer().debugRectangleShape(debugShape,2.5f);
+    }
+
+    void StageA::onUpdate(Engine &engineContext, const float &deltaTime) {}
+
     void StageA::onExit(Engine &EngineContext) {
         std::cout << "StageA onExit" << std::endl;
-    };
+    }
 
     static bool loadAtlas(ImageAtlas &atlas) {
         std::ifstream inFile;
@@ -109,7 +123,7 @@ namespace Experimental { namespace EngineDemos {
         }
         atlas.pack();
 
-        std::cout << "The window will become unresponsive for ~5 seconds. Please wait..." << std::endl << std::endl;
+        std::cout << "This window will automatically close in ~5 seconds. Please wait..." << std::endl << std::endl;
 
         Scene myScene(atlas);
         setupScene(myScene);

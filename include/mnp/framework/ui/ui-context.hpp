@@ -1,6 +1,6 @@
 #pragma once
+#include <SFML/System.hpp>
 #include <SFML/Window/Event.hpp>
-#include <mnp/framework/ui/shapes.hpp>
 
 class BaseUIContext : public MNPInput::InputContext {
     bool focusFlag;
@@ -20,10 +20,10 @@ public:
     UIClickableContext();
     ~UIClickableContext();
 
-    Rectangle m_MyRect;
+    sf::FloatRect m_MyRect;
     bool clicked;
 
-    void setRect(Rectangle r);
+    void setRect(const sf::FloatRect &r);
 
     bool handleInput(const sf::Event &event);
 
