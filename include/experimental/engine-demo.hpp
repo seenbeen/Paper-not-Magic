@@ -7,19 +7,19 @@ namespace Experimental { namespace EngineDemos {
     using namespace MNPCore;
     using namespace MNPRender;
 
-    class ObjectA;
-    class ComponentA : public GameObjectComponent<ObjectA> {
+    class ComponentA : public GameObjectComponent {
+        float m_timeOfExistence;
     public:
-        void onLoad(Engine &engineContext, ObjectA &objContext);
-        void onEnter(Engine &engineContext, ObjectA &objContext);
-        void onUpdate(Engine &engineContext, ObjectA &objContext, const float &deltaTime);
-        void onExit(Engine &engineContext, ObjectA &objContext);
-        void onUnload(Engine &engineContext, ObjectA &objContext);
+        void onLoad(Engine &engineContext, GameObject &objContext);
+        void onEnter(Engine &engineContext, GameObject &objContext);
+        void onUpdate(Engine &engineContext, GameObject &objContext, const float &deltaTime);
+        void onPostUpdate(Engine &engineContext, GameObject &objContext);
+        void onExit(Engine &engineContext, GameObject &objContext);
+        void onUnload(Engine &engineContext, GameObject &objContext);
     };
 
-    class ObjectA : public GameObject<ObjectA> {
+    class ObjectA : public GameObject {
     public:
-        float timeOfExistence;
         ObjectA();
     };
 
@@ -30,6 +30,7 @@ namespace Experimental { namespace EngineDemos {
         StageA();
         void onEnter(Engine &engineContext);
         void onUpdate(Engine &engineContext, const float &deltaTime);
+        void onPostUpdate(Engine &engineContext);
         void onExit(Engine &EngineContext);
     };
 

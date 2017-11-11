@@ -31,5 +31,11 @@ namespace MNPCore {
         float getDeltaTime();
         MNPRender::Renderer &getRenderer();
         MNPInput::InputHandler &getInputHandler();
+
+        template <class GameObjectType>
+        bool loadObject();
+
+        template <class GameObjectType>
+        bool unloadObject();
     };
 }

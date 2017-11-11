@@ -160,6 +160,7 @@
 		<Unit filename="include/mnp/framework/ui/ui-context.hpp" />
 		<Unit filename="include/mnp/framework/ui/ui-elements.hpp" />
 		<Unit filename="src/engine/core/engine.cpp" />
+		<Unit filename="src/engine/core/game-object.cpp" />
 		<Unit filename="src/engine/core/math.cpp" />
 		<Unit filename="src/engine/input/input-system.cpp" />
 		<Unit filename="src/engine/render/batcherizer.cpp" />
