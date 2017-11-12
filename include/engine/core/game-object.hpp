@@ -1,76 +1,77 @@
 #pragma once
-#include <list>
+#include <map>
+#include <set>
+#include <string>
 
 #include <engine/core/game-object-component.hpp>
 
 namespace MNPCore {
     class Engine;
-    class BaseGameObject {
-    public:
-        virtual ~BaseGameObject() {}
-        virtual void onLoad(Engine &engineContext) = 0;
-        virtual void onEnter(Engine &engineContext) = 0;
-        virtual void onUpdate(Engine &engineContext, const float &deltaTime) = 0;
-        virtual void onExit(Engine &engineContext) = 0;
-        virtual void onUnload(Engine &engineContext) = 0;
-        virtual bool isDead() = 0;
-    };
 
-    template <class GameObjContext>
-    class GameObject : public BaseGameObject {
-        std::list<GameObjectComponent<GameObjContext>*> m_components;
-        GameObjContext &m_objContext;
-        bool m_isDead;
-
-    protected:
-        void addComponent(GameObjectComponent<GameObjContext> *component) {
-            m_components.push_back(component);
-        }
+    class GameObject {
+        bool m_dead;
+        std::map<std::string,GameObjectComponent*> m_stagedComponents;
+        std::map<std::string,GameObjectComponent*> m_components;
+        std::set<std::string> m_deadComponents;
 
     public:
-        GameObject(GameObjContext &objContext)
-            : m_objContext(objContext), m_isDead(false) {}
-
-        bool isDead() {
-            return m_isDead;
-        }
-
+        bool isDead();
         // needs to guarantee that all components have been loaded by the time entrance happens
-        void onLoad(Engine &engineContext) {
-            typename std::list<GameObjectComponent<GameObjContext>*>::iterator it;
-            for (it = m_components.begin(); it != m_components.end(); ++it) {
-                (*it)->onLoad(engineContext, m_objContext);
-            }
-        }
-
-        void onEnter(Engine &engineContext) {
-            typename std::list<GameObjectComponent<GameObjContext>*>::iterator it;
-            for (it = m_components.begin(); it != m_components.end(); ++it) {
-                (*it)->onEnter(engineContext, m_objContext);
-            }
-        }
-
-        void onUpdate(Engine &engineContext, const float &deltaTime) {
-            typename std::list<GameObjectComponent<GameObjContext>*>::iterator it;
-            for (it = m_components.begin(); it != m_components.end(); ++it) {
-                (*it)->onUpdate(engineContext, m_objContext, deltaTime);
-            }
-        }
-
-        void onExit(Engine &engineContext) {
-            typename std::list<GameObjectComponent<GameObjContext>*>::iterator it;
-            for (it = m_components.begin(); it != m_components.end(); ++it) {
-                (*it)->onExit(engineContext, m_objContext);
-            }
-        }
-
+        void onLoad(Engine &engineContext);
+        void onEnter(Engine &engineContext);
+        void onUpdate(Engine &engineContext, const float &deltaTime);
+        void onPostUpdate(Engine &engineContext);
+        void onExit(Engine &engineContext);
         // needs to guarantee that all components will be unloaded after exit happens
         // but before deletion
-        void onUnload(Engine &engineContext) {
-            typename std::list<GameObjectComponent<GameObjContext>*>::iterator it;
-            for (it = m_components.begin(); it != m_components.end(); ++it) {
-                (*it)->onUnload(engineContext, m_objContext);
+        void onUnload(Engine &engineContext);
+
+        GameObject();
+        ~GameObject();
+
+        void kill();
+
+        template <class ComponentClass>
+        bool addComponent(const std::string &componentName) {
+            if (m_dead) {
+                // should probably warn here
+                return false;
+            } else if (m_stagedComponents.find(componentName) != m_stagedComponents.end()) {
+                // we're staged already!
+                return false;
+            } else if (m_components.find(componentName) != m_components.end()) {
+                // we already exist!
+                return false;
             }
+            m_stagedComponents[componentName] = new ComponentClass();
+            return true;
+        }
+
+        bool removeComponent(const std::string &componentName) {
+            if (m_dead) {
+                // should probably warn here
+                return false;
+            } else if (m_components.find(componentName) == m_components.end()) {
+                // we don't exist!
+                return false;
+            } else if (m_deadComponents.find(componentName) != m_deadComponents.end()) {
+                // we dead already!
+                return false;
+            }
+            m_deadComponents.insert(componentName);
+            return true;
+        }
+
+        template <class ComponentClass>
+        ComponentClass *getComponent(const std::string &componentName) {
+            if (m_dead) {
+                // should probably warn here
+                return NULL;
+            } else if (m_components.find(componentName) == m_components.end()) {
+                // we don't exist!
+                return NULL;
+            }
+            return m_components.find(componentName)->second;
         }
     };
 }

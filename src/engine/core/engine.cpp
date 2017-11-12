@@ -79,4 +79,19 @@ namespace MNPCore {
     MNPInput::InputHandler &Engine::getInputHandler() {
         return *m_inputHandler;
     }
+
+    // TODO: warn if loading twice or unloading non-existent occurs
+    template <class GameObjectType>
+    bool Engine::loadObject() {
+        GameObjectType obj;
+        obj.onLoad(*this);
+        return true;
+    }
+
+    template <class GameObjectType>
+    bool Engine::unloadObject() {
+        GameObjectType obj;
+        obj.onUnload(*this);
+        return true;
+    }
 }

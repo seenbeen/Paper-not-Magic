@@ -5,8 +5,6 @@
 #include <sstream>
 
 #include <engine/core/engine-config.hpp>
-#include <experimental/engine-demo.hpp>
-#include <engine/core/engine-config.hpp>
 #include <engine/core/engine.hpp>
 #include <engine/core/stage.hpp>
 #include <engine/core/game-object.hpp>
@@ -14,42 +12,64 @@
 #include <engine/render/image-atlas.hpp>
 #include <engine/render/scene.hpp>
 
+#include <mnp/framework/ui/ui-elements.hpp>
+
+#include <experimental/engine-demo.hpp>
+
 namespace Experimental { namespace EngineDemos {
     using namespace MNPCore;
     using namespace MNPRender;
 
-    void ComponentA::onLoad(Engine &engineContext, ObjectA &objContext) {
+    void ComponentA::onLoad(Engine &engineContext, GameObject &objContext) {
         std::cout << "ComponentA on Load" << std::endl;
+        m_timeOfExistence = 0.0f;
     }
-    void ComponentA::onEnter(Engine &engineContext, ObjectA &objContext) {
+
+    void ComponentA::onEnter(Engine &engineContext, GameObject &objContext) {
         std::cout << "ComponentA on Enter" << std::endl;
     }
-    void ComponentA::onUpdate(Engine &engineContext, ObjectA &objContext, const float &deltaTime) {
-        if (objContext.timeOfExistence >= 5.0f) {
+
+    void ComponentA::onUpdate(Engine &engineContext, GameObject &objContext, const float &deltaTime) {
+        /*if (m_timeOfExistence >= 5.0f) {
             engineContext.stop();
-        }
-        objContext.timeOfExistence += deltaTime;
-        //std::cout << "ComponentA on Update Frame: " << objContext.timeOfExistence << std::endl;
+        }*/
+        m_timeOfExistence += deltaTime;
     }
-    void ComponentA::onExit(Engine &engineContext, ObjectA &objContext) {
+
+    void ComponentA::onPostUpdate(Engine &engineContext, GameObject &objContext) {}
+
+    void ComponentA::onExit(Engine &engineContext, GameObject &objContext) {
         std::cout << "ComponentA on Exit" << std::endl;
     }
-    void ComponentA::onUnload(Engine &engineContext, ObjectA &objContext) {
+
+    void ComponentA::onUnload(Engine &engineContext, GameObject &objContext) {
         std::cout << "ComponentA on Unload" << std::endl;
     }
 
-    StageA::StageA() : Stage(GAME) {
-        addObject(new ObjectA());
+    ObjectA::ObjectA() {
+        addComponent<ComponentA>("ComponentA");
     }
+
+    StageA::StageA() : Stage(GAME) {
+        addObject<ObjectA>("ObjectA");
+        addObject<MyUIObject>("UIObject");
+    }
+
     void StageA::onEnter(Engine &engineContext) {
         std::cout << "StageA onEnter" << std::endl;
-    };
-    void StageA::onUpdate(Engine &engineContext, const float &deltaTime) {
-        // std::cout << "StageA onUpdate" << std::endl;
-    };
+        sf::RectangleShape debugShape(sf::Vector2f(100,80));
+        debugShape.setFillColor(sf::Color::Green);
+        debugShape.setPosition(sf::Vector2f(400-50,300-40));
+        engineContext.getRenderer().debugRectangleShape(debugShape,2.5f);
+    }
+
+    void StageA::onUpdate(Engine &engineContext, const float &deltaTime) {}
+
+    void StageA::onPostUpdate(Engine &engineContext) {}
+
     void StageA::onExit(Engine &EngineContext) {
         std::cout << "StageA onExit" << std::endl;
-    };
+    }
 
     static bool loadAtlas(ImageAtlas &atlas) {
         std::ifstream inFile;
@@ -108,12 +128,11 @@ namespace Experimental { namespace EngineDemos {
             return -1;
         }
         atlas.pack();
-
-        std::cout << "The window will become unresponsive for ~5 seconds. Please wait..." << std::endl << std::endl;
-
         Scene myScene(atlas);
         setupScene(myScene);
         engine.getRenderer().addScene("testScene",myScene);
+
+        std::cout << "This window will automatically close in ~5 seconds. Please wait..." << std::endl << std::endl;
 
         engine.run();
         engine.shutdown();

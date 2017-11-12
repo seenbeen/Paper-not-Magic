@@ -3,27 +3,26 @@
 #include <engine/core/game-object.hpp>
 #include <engine/core/game-object-component.hpp>
 
+#include <mnp/framework/ui/ui-elements.hpp>
+
 namespace Experimental { namespace EngineDemos {
     using namespace MNPCore;
     using namespace MNPRender;
 
-    class ObjectA;
-    class ComponentA : public GameObjectComponent<ObjectA> {
+    class ComponentA : public GameObjectComponent {
+        float m_timeOfExistence;
     public:
-        void onLoad(Engine &engineContext, ObjectA &objContext);
-        void onEnter(Engine &engineContext, ObjectA &objContext);
-        void onUpdate(Engine &engineContext, ObjectA &objContext, const float &deltaTime);
-        void onExit(Engine &engineContext, ObjectA &objContext);
-        void onUnload(Engine &engineContext, ObjectA &objContext);
+        void onLoad(Engine &engineContext, GameObject &objContext);
+        void onEnter(Engine &engineContext, GameObject &objContext);
+        void onUpdate(Engine &engineContext, GameObject &objContext, const float &deltaTime);
+        void onPostUpdate(Engine &engineContext, GameObject &objContext);
+        void onExit(Engine &engineContext, GameObject &objContext);
+        void onUnload(Engine &engineContext, GameObject &objContext);
     };
 
-    class ObjectA : public GameObject<ObjectA> {
+    class ObjectA : public GameObject {
     public:
-        float timeOfExistence;
-        ObjectA() : GameObject(*this) {
-            timeOfExistence = 0;
-            addComponent(new ComponentA());
-        }
+        ObjectA();
     };
 
     enum EngineStages { MENU, GAME };
@@ -33,11 +32,21 @@ namespace Experimental { namespace EngineDemos {
         StageA();
         void onEnter(Engine &engineContext);
         void onUpdate(Engine &engineContext, const float &deltaTime);
+        void onPostUpdate(Engine &engineContext);
         void onExit(Engine &EngineContext);
     };
 
     class EngineDemoA {
     public:
         int run();
+    };
+
+    class MyUIObject : public GameObject {
+    public:
+        MyUIObject() {
+            addComponent<UIHandler>("UIHandlerComponent");
+        }
+
+        ~MyUIObject() {}
     };
 }}

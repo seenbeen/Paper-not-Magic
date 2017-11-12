@@ -13,7 +13,6 @@ namespace MNPInput {
     bool InputHandler::addReceiver(InputContext *newReceiver){
         m_receivers.push_back(newReceiver);
         return true;
-
     }
 
     void InputHandler::sendEvent(const sf::Event &event){
@@ -21,8 +20,6 @@ namespace MNPInput {
         while(it != m_receivers.end() && (*it)->propogateToChildren(event)){
             it++;
         }
-
-
     }
 
     void InputHandler::update(const float &deltaTime){
@@ -44,14 +41,14 @@ namespace MNPInput {
             return false;
         };
         for (std::list<InputContext*>::iterator it = m_children.begin(); it != m_children.end(); it++) {
-           if ((*it)->InputContext::propogateToChildren(event) == false) {
+            if ((*it)->InputContext::propogateToChildren(event) == false) {
                 InputContext* temp = *it;
                 if (temp->wantsFocus(event)){
                     m_children.erase(it);
                     m_children.push_front(temp);
                 }
                 return false;
-           }
+            }
         }
         return true;
     }

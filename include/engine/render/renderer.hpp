@@ -42,8 +42,8 @@ namespace MNPRender {
         void update(const float &deltaTime);
 
         // debug drawing functions
-        void debugCircleShape(const sf::CircleShape &shape, const float &duration);
-        void debugRectangleShape(const sf::RectangleShape &shape, const float &duration);
-        void debugConvexShape(const sf::ConvexShape &shape, const float &duration);
+        void debugCircleShape(const sf::CircleShape &shape, const float &duration=0.0f);
+        void debugRectangleShape(const sf::RectangleShape &shape, const float &duration=0.0f);
+        void debugConvexShape(const sf::ConvexShape &shape, const float &duration=0.0f);
     };
 }
