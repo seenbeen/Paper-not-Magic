@@ -32,7 +32,13 @@ bool UIClickableContext::handleInput(const sf::Event &event){
     return true;
 }
 
+BlankContext::BlankContext() : killWindow(false) {}
+BlankContext::~BlankContext() {}
+
 bool BlankContext::handleInput(const sf::Event &event){
+    if (event.type == sf::Event::Closed) {
+        killWindow = true;
+    }
     return true;
 }
 

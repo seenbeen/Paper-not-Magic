@@ -2,6 +2,8 @@
 #include <SFML/System.hpp>
 #include <SFML/Window/Event.hpp>
 
+#include <engine/input/input-system.hpp>
+
 class BaseUIContext : public MNPInput::InputContext {
     bool focusFlag;
 public:
@@ -35,6 +37,11 @@ public:
 
 class BlankContext : public BaseUIContext {
 public:
+    BlankContext();
+    ~BlankContext();
+
+    bool killWindow;
+
     bool handleInput(const sf::Event &event);
     void update(const float &deltaTime);
 

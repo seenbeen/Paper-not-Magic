@@ -156,7 +156,6 @@
 		<Unit filename="include/engine/render/renderer.hpp" />
 		<Unit filename="include/engine/render/scene.hpp" />
 		<Unit filename="include/experimental/engine-demo.hpp" />
-		<Unit filename="include/experimental/ui-demo.hpp" />
 		<Unit filename="include/mnp/framework/ui/ui-context.hpp" />
 		<Unit filename="include/mnp/framework/ui/ui-elements.hpp" />
 		<Unit filename="src/engine/core/engine.cpp" />
@@ -168,7 +167,6 @@
 		<Unit filename="src/engine/render/renderer.cpp" />
 		<Unit filename="src/engine/render/scene.cpp" />
 		<Unit filename="src/experimental/engine-demo.cpp" />
-		<Unit filename="src/experimental/ui-demo.cpp" />
 		<Unit filename="src/mnp/framework/ui/ui-context.cpp" />
 		<Unit filename="src/mnp/framework/ui/ui-elements.cpp" />
 		<Unit filename="src/mnp/main.cpp" />

@@ -3,6 +3,8 @@
 #include <vector>
 
 #include <SFML/Graphics.hpp>
+#include <engine/core/engine.hpp>
+#include <engine/core/game-object-component.hpp>
 
 #include <mnp/framework/ui/ui-elements.hpp>
 
@@ -52,10 +54,10 @@ void UIComponent::update(const float &deltaTime){
     }
 }
 
-void UIComponent::render(sf::RenderWindow &window){
-    receiveRender(window);
+void UIComponent::render(MNPCore::Engine &engineContext){
+    receiveRender(engineContext);
     for (std::list<UIComponent*>::iterator it = m_children.begin(); it != m_children.end(); it++) {
-        (*it)->render(window);
+        (*it)->render(engineContext);
     }
 }
 
@@ -68,9 +70,9 @@ UIBox::~UIBox() {
     delete m_context;
 }
 
-void UIBox::receiveRender(sf::RenderWindow &window){
+void UIBox::receiveRender(MNPCore::Engine &engineContext){
     m_drawShape.setPosition(m_rect.left,m_rect.top);
-    window.draw(m_drawShape);
+    engineContext.getRenderer().debugRectangleShape(m_drawShape);
 }
 
 void UIBox::changeColor(sf::Color newColor){
@@ -95,12 +97,11 @@ UIRoot::~UIRoot(){
     delete m_context;
 }
 
-void UIRoot::receiveRender(sf::RenderWindow &window){}
+void UIRoot::receiveRender(MNPCore::Engine &engineContext){}
 void UIRoot::receiveUpdate(const float &deltaTime){}
 
-UIHandler::UIHandler(MNPInput::InputHandler* inputParent){
+UIHandler::UIHandler(){
     m_rootcontext = new BlankContext();
-    inputParent->addReceiver(m_rootcontext);
 }
 
 UIHandler::~UIHandler(){
@@ -109,24 +110,61 @@ UIHandler::~UIHandler(){
     }
 }
 
+void UIHandler::onLoad(MNPCore::Engine &engineContext, MNPCore::GameObject &objContext) {
+
+}
+
+void UIHandler::onEnter(MNPCore::Engine &engineContext, MNPCore::GameObject &objContext) {
+    engineContext.getInputHandler().addReceiver(m_rootcontext);
+    m_root = new UIRoot(0,0,1280,720,new BlankContext());
+    m_rootcontext->addContextChild(m_root->m_context);
+
+    //UIClickableContext* button1context = new UIClickableContext();
+    UIButton *myButton = new UIButton(50,50,100,100,new UIClickableContext());
+    m_root->addComponent(myButton);
+
+    UIButton *myButton2 = new UIButton(70,70,100,100,new UIClickableContext());
+    m_root->addComponent(myButton2);
+
+    myButton2->changeColor(sf::Color(255,255,255));
+}
+
+void UIHandler::onUpdate(MNPCore::Engine &engineContext, MNPCore::GameObject &objContext, const float &deltaTime) {
+    if (m_rootcontext->killWindow) {
+        engineContext.stop();
+    }
+    if (m_root != NULL) {
+        m_root->update(deltaTime);
+    }
+}
+
+void UIHandler::onPostUpdate(MNPCore::Engine &engineContext, MNPCore::GameObject &objContext) {
+    if (m_root != NULL) {
+        m_root->render(engineContext);
+    }
+}
+
+void UIHandler::onExit(MNPCore::Engine &engineContext, MNPCore::GameObject &objContext) {
+    // inputParent->removeReceiver(m_rootcontext);
+}
+
+void UIHandler::onUnload(MNPCore::Engine &engineContext, MNPCore::GameObject &objContext) {
+
+}
+/*
 bool UIHandler::bindRootUI(UIComponent *rootUI) {
     m_root = rootUI;
     m_rootcontext->addContextChild(rootUI->m_context);
 
     return true;
 }
-
-void UIHandler::update(const float &deltaTime) {
-    if (m_root != NULL) {
-        m_root->update(deltaTime);
-    }
-}
-
+*/
+/*
 void UIHandler::render(sf::RenderWindow &window){
     if (m_root != NULL) {
         m_root->render(window);
     }
-}
+}*/
 
 /*
 bool UIButton::receiveEvent(const sf::Event &event, Point offSet) {
@@ -147,7 +185,7 @@ bool UIButton::receiveEvent(const sf::Event &event, Point offSet) {
 
     return true;
 }*/
-
+/*
 UITextInputBox::UITextInputBox(int x,int y,int l,int h,UIClickableContext* context) : UIComponent(x,y,l,h,context),m_context(context) {
     inputText = "";
     focus = false;
@@ -156,7 +194,7 @@ UITextInputBox::UITextInputBox(int x,int y,int l,int h,UIClickableContext* conte
 UITextInputBox::~UITextInputBox(){
     delete m_context;
 }
-
+*/
 /*
 bool UITextInputBox::receiveEvent(const sf::Event &event, Point offSet) {
     std::cout << "\n TEXT WA: " <<inputText << std::endl;
@@ -198,6 +236,7 @@ bool UITextInputBox::receiveEvent(const sf::Event &event, Point offSet) {
     return true;
 
 }*/
-
+/*
 void UITextInputBox::receiveRender(sf::RenderWindow &window){}
 void UITextInputBox::receiveUpdate(const float &deltaTime){}
+*/

@@ -12,6 +12,8 @@
 #include <engine/render/image-atlas.hpp>
 #include <engine/render/scene.hpp>
 
+#include <mnp/framework/ui/ui-elements.hpp>
+
 #include <experimental/engine-demo.hpp>
 
 namespace Experimental { namespace EngineDemos {
@@ -28,9 +30,9 @@ namespace Experimental { namespace EngineDemos {
     }
 
     void ComponentA::onUpdate(Engine &engineContext, GameObject &objContext, const float &deltaTime) {
-        if (m_timeOfExistence >= 5.0f) {
+        /*if (m_timeOfExistence >= 5.0f) {
             engineContext.stop();
-        }
+        }*/
         m_timeOfExistence += deltaTime;
     }
 
@@ -50,6 +52,7 @@ namespace Experimental { namespace EngineDemos {
 
     StageA::StageA() : Stage(GAME) {
         addObject<ObjectA>("ObjectA");
+        addObject<MyUIObject>("UIObject");
     }
 
     void StageA::onEnter(Engine &engineContext) {

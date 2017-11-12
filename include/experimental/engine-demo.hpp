@@ -3,6 +3,8 @@
 #include <engine/core/game-object.hpp>
 #include <engine/core/game-object-component.hpp>
 
+#include <mnp/framework/ui/ui-elements.hpp>
+
 namespace Experimental { namespace EngineDemos {
     using namespace MNPCore;
     using namespace MNPRender;
@@ -37,5 +39,14 @@ namespace Experimental { namespace EngineDemos {
     class EngineDemoA {
     public:
         int run();
+    };
+
+    class MyUIObject : public GameObject {
+    public:
+        MyUIObject() {
+            addComponent<UIHandler>("UIHandlerComponent");
+        }
+
+        ~MyUIObject() {}
     };
 }}
