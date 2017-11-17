@@ -5,15 +5,20 @@ namespace MNPCore {
     class GameObject;
 
     class GameObjectComponent {
+    friend class GameObject;
+        GameObject *m_gameObject;
+
     public:
         GameObjectComponent(){}
         virtual ~GameObjectComponent(){}
 
-        virtual void onLoad(Engine &engineContext, GameObject &objContext) = 0;
-        virtual void onEnter(Engine &engineContext, GameObject &objContext) = 0;
-        virtual void onUpdate(Engine &engineContext, GameObject &objContext, const float &deltaTime) = 0;
-        virtual void onPostUpdate(Engine &engineContext, GameObject &objContext) = 0;
-        virtual void onExit(Engine &engineContext, GameObject &objContext) = 0;
-        virtual void onUnload(Engine &engineContext, GameObject &objContext) = 0;
+        GameObject &gameObject() { return *m_gameObject; }
+
+        virtual void onLoad(Engine &engineContext) = 0;
+        virtual void onEnter(Engine &engineContext) = 0;
+        virtual void onUpdate(Engine &engineContext, const float &deltaTime) = 0;
+        virtual void onPostUpdate(Engine &engineContext) = 0;
+        virtual void onExit(Engine &engineContext) = 0;
+        virtual void onUnload(Engine &engineContext) = 0;
     };
 }

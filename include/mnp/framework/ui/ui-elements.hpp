@@ -3,107 +3,80 @@
 
 #include <SFML/Graphics.hpp>
 
-#include <engine/input/input-system.hpp>
+#include <engine/input/input-context-component.hpp>
 #include <engine/core/game-object.hpp>
 #include <engine/core/game-object-component.hpp>
 
-#include <mnp/framework/ui/ui-context.hpp>
+#include <mnp/framework/ui/ui-framework.hpp>
 
-class UIComponent {
-protected:
-    sf::FloatRect m_rect;
-    std::list<UIComponent*> m_children;
-
-public:
-    BaseUIContext *m_context;
-
-    UIComponent(int x,int y,int l,int h,BaseUIContext *context);
-
-    virtual ~UIComponent();
-
-    bool addComponent(UIComponent *newChild);
-    bool removeComponent (UIComponent *removeChild);
-
-    void bindContext(BaseUIContext* toBind);
-
-    void render(MNPCore::Engine &engineContext);
-
-    void update(const float &deltaTime);
-
-    virtual void receiveRender(MNPCore::Engine &engineContext) = 0;
-    virtual void receiveUpdate(const float &deltaTime) = 0;
-
-};
-
-class UIBox : public UIComponent{
-protected:
-    sf::RectangleShape m_drawShape;
-    BaseUIContext *m_context;
-
-public:
-    UIBox(int x,int y,int l,int w,BaseUIContext* context);
-    ~UIBox();
-
-    void receiveRender(MNPCore::Engine &engineContext);
-    void changeColor(sf::Color newColor);
-};
-
-class UIButton : public UIBox {
-    UIClickableContext* m_context;
-
-public:
-    UIButton(int x,int y,int l,int h,UIClickableContext* context);
-    ~UIButton();
-
-    void onClick();
-
-    bool receiveEvent(const sf::Event &event);
-    void receiveUpdate(const float &deltaTime);
-};
-
+// UI Objects
 /*
-class UITextInputBox : public UIComponent {
-    std::string inputText;
-    bool focus;
-    UIClickableContext* m_context;
+    Notes:
+    - All UIObjects will have a UIManagementComponent, which takes care of synchronization logistics
+      between components
 
-public:
-    UITextInputBox(int x,int y,int l,int h,UIClickableContext* context);
-    ~UITextInputBox();
-    bool receiveEvent(const sf::Event &event);
-    void receiveRender(MNPCore::Engine &engineContext);
-    void receiveUpdate(const float &deltaTime);
-};
+    - Any UIObject must guarantee that a component called InputContextComponent,
+      which is of base class UIContextComponent is added in the constructor
+
+    - Any UIComponents added to a UIObject should be of base class UIComponent
 */
 
-class UIRoot : public UIComponent{
-    BlankContext* m_context;
+namespace MNPFrame {
+    class UIRootObject : public UIObject {
+    public:
+        UIRootObject();
+        UIContextComponent *getContextComponent();
+    };
 
-public:
-    UIRoot(int x,int y,int l,int w,BlankContext* context);
-    ~UIRoot();
+    class UIRootContextComponent : public UIContextComponent {
+    public:
+        bool killWindow;
+        UIRootContextComponent();
+        ~UIRootContextComponent();
+        void handleEventImpl(const sf::Event &event, bool &willPropagate, bool &wantsFocus);
+        void onPostUpdate(MNPCore::Engine &engineContext);
+    };
 
-    void receiveRender(MNPCore::Engine &engineContext);
-    void receiveUpdate(const float &deltaTime);
-};
+    class UIRootComponent : public UIObjectComponent {
+        UIRootContextComponent *m_context;
+    public:
+        void onLoad(MNPCore::Engine &engineContext);
+        void onEnter(MNPCore::Engine &engineContext);
+        void onUpdate(MNPCore::Engine &engineContext, const float &deltaTime);
+        void onPostUpdate(MNPCore::Engine &engineContext);
+        void onExit(MNPCore::Engine &engineContext);
+        void onUnload(MNPCore::Engine &engineContext);
+    };
 
-class UIHandler : public MNPCore::GameObjectComponent {
-    UIComponent *m_root;
-    BlankContext *m_rootcontext;
+    class UIButtonObject : public UIObject {
+    public:
+        UIButtonObject();
+    };
 
-public:
-    UIHandler();
-    ~UIHandler();
+    class UIButtonContext : public UIContextComponent {
+        bool m_clicked;
 
-    void onLoad(MNPCore::Engine &engineContext, MNPCore::GameObject &objContext);
-    void onEnter(MNPCore::Engine &engineContext, MNPCore::GameObject &objContext);
-    void onUpdate(MNPCore::Engine &engineContext, MNPCore::GameObject &objContext, const float &deltaTime);
-    void onPostUpdate(MNPCore::Engine &engineContext, MNPCore::GameObject &objContext);
-    void onExit(MNPCore::Engine &engineContext, MNPCore::GameObject &objContext);
-    void onUnload(MNPCore::Engine &engineContext, MNPCore::GameObject &objContext);
+    public:
+        bool buttonClicked();
+        void handleEventImpl(const sf::Event &event, bool &willPropagate, bool &wantsFocus);
+        void onPostUpdate(MNPCore::Engine &engineContext);
+    };
 
-    //bool bindRootUI(UIComponent *rootUI);
+    class UIButtonTestComponent : public UIObjectComponent {
+        UIManagementComponent *managementComp;
+        UIButtonContext *buttonContext;
 
-    //void update(const float &deltaTime);
-    //void render(sf::RenderWindow &window);
-};
+        sf::RectangleShape m_drawShape;
+
+    public:
+        UIButtonTestComponent();
+        ~UIButtonTestComponent();
+        void setColor(const sf::Color &color);
+        void onLoad(MNPCore::Engine &engineContext);
+        void onEnter(MNPCore::Engine &engineContext);
+        void onUpdate(MNPCore::Engine &engineContext, const float &deltaTime);
+        void onPostUpdate(MNPCore::Engine &engineContext);
+        void onExit(MNPCore::Engine &engineContext);
+        void onUnload(MNPCore::Engine &engineContext);
+    };
+}

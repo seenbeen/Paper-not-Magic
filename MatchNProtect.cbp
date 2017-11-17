@@ -150,25 +150,29 @@
 		<Unit filename="include/engine/core/gamestate.hpp" />
 		<Unit filename="include/engine/core/math.hpp" />
 		<Unit filename="include/engine/core/stage.hpp" />
+		<Unit filename="include/engine/input/input-context-component.hpp" />
 		<Unit filename="include/engine/input/input-system.hpp" />
 		<Unit filename="include/engine/render/batcherizer.hpp" />
+		<Unit filename="include/engine/render/compositing.hpp" />
 		<Unit filename="include/engine/render/image-atlas.hpp" />
 		<Unit filename="include/engine/render/renderer.hpp" />
 		<Unit filename="include/engine/render/scene.hpp" />
 		<Unit filename="include/experimental/engine-demo.hpp" />
-		<Unit filename="include/mnp/framework/ui/ui-context.hpp" />
 		<Unit filename="include/mnp/framework/ui/ui-elements.hpp" />
+		<Unit filename="include/mnp/framework/ui/ui-framework.hpp" />
 		<Unit filename="src/engine/core/engine.cpp" />
 		<Unit filename="src/engine/core/game-object.cpp" />
 		<Unit filename="src/engine/core/math.cpp" />
+		<Unit filename="src/engine/input/input-context-component.cpp" />
 		<Unit filename="src/engine/input/input-system.cpp" />
 		<Unit filename="src/engine/render/batcherizer.cpp" />
+		<Unit filename="src/engine/render/compositing.cpp" />
 		<Unit filename="src/engine/render/image-atlas.cpp" />
 		<Unit filename="src/engine/render/renderer.cpp" />
 		<Unit filename="src/engine/render/scene.cpp" />
 		<Unit filename="src/experimental/engine-demo.cpp" />
-		<Unit filename="src/mnp/framework/ui/ui-context.cpp" />
 		<Unit filename="src/mnp/framework/ui/ui-elements.cpp" />
+		<Unit filename="src/mnp/framework/ui/ui-framework.cpp" />
 		<Unit filename="src/mnp/main.cpp" />
 		<Extensions>
 			<code_completion />

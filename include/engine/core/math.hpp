@@ -18,7 +18,7 @@ namespace MNPCore {
         bool m_isDirty;
 
         float m_rotation;
-        float m_depth;
+        int m_depth;
         sf::Vector2f m_position;
         sf::Vector2f m_scale;
 
@@ -27,7 +27,7 @@ namespace MNPCore {
         Transform();
 
         float &rotation();
-        float &depth();
+        int &depth();
         sf::Vector2f &position();
         sf::Vector2f &scale();
 

@@ -39,7 +39,6 @@ namespace MNPCore {
         sf::Event event;
         while (m_isRunning) {
             m_deltaTime = m_clock.restart().asSeconds();
-            m_inputHandler->update(m_deltaTime);
             while (m_window->pollEvent(event)) {
                 m_inputHandler->sendEvent(event);
             }

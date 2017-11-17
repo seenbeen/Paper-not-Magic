@@ -32,7 +32,7 @@ namespace MNPCore {
 
     Transform::Transform() {
         m_isDirty = true;
-        m_depth = 0.0f;
+        m_depth = 0;
         m_position = sf::Vector2f(1.0f,1.0f);
         m_rotation = 0.0f;
         m_scale = sf::Vector2f(1.0f,1.0f);
@@ -54,7 +54,7 @@ namespace MNPCore {
 
     // no need to flag depth as dirt, as it doesn't
     // impact the sf::Transform itself
-    float &Transform::depth() {
+    int &Transform::depth() {
         return m_depth;
     }
 
