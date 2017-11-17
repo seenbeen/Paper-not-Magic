@@ -153,7 +153,6 @@
 		<Unit filename="include/engine/input/input-context-component.hpp" />
 		<Unit filename="include/engine/input/input-system.hpp" />
 		<Unit filename="include/engine/render/batcherizer.hpp" />
-		<Unit filename="include/engine/render/compositing.hpp" />
 		<Unit filename="include/engine/render/image-atlas.hpp" />
 		<Unit filename="include/engine/render/renderer.hpp" />
 		<Unit filename="include/engine/render/scene.hpp" />
@@ -166,7 +165,6 @@
 		<Unit filename="src/engine/input/input-context-component.cpp" />
 		<Unit filename="src/engine/input/input-system.cpp" />
 		<Unit filename="src/engine/render/batcherizer.cpp" />
-		<Unit filename="src/engine/render/compositing.cpp" />
 		<Unit filename="src/engine/render/image-atlas.cpp" />
 		<Unit filename="src/engine/render/renderer.cpp" />
 		<Unit filename="src/engine/render/scene.cpp" />
