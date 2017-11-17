@@ -3,6 +3,7 @@
 #include <set>
 #include <string>
 
+#include <engine/core/math.hpp>
 #include <engine/core/game-object-component.hpp>
 
 namespace MNPCore {
@@ -12,9 +13,10 @@ namespace MNPCore {
         bool m_dead;
         std::map<std::string,GameObjectComponent*> m_stagedComponents;
         std::map<std::string,GameObjectComponent*> m_components;
-        std::set<std::string> m_deadComponents;
 
     public:
+        MNPCore::Transform transform;
+
         bool isDead();
         // needs to guarantee that all components have been loaded by the time entrance happens
         void onLoad(Engine &engineContext);
@@ -32,34 +34,21 @@ namespace MNPCore {
         void kill();
 
         template <class ComponentClass>
-        bool addComponent(const std::string &componentName) {
+        ComponentClass *addComponent(const std::string &componentName) {
             if (m_dead) {
                 // should probably warn here
-                return false;
+                return NULL;
             } else if (m_stagedComponents.find(componentName) != m_stagedComponents.end()) {
                 // we're staged already!
-                return false;
+                return NULL;
             } else if (m_components.find(componentName) != m_components.end()) {
                 // we already exist!
-                return false;
+                return NULL;
             }
-            m_stagedComponents[componentName] = new ComponentClass();
-            return true;
-        }
-
-        bool removeComponent(const std::string &componentName) {
-            if (m_dead) {
-                // should probably warn here
-                return false;
-            } else if (m_components.find(componentName) == m_components.end()) {
-                // we don't exist!
-                return false;
-            } else if (m_deadComponents.find(componentName) != m_deadComponents.end()) {
-                // we dead already!
-                return false;
-            }
-            m_deadComponents.insert(componentName);
-            return true;
+            ComponentClass *component = new ComponentClass();
+            component->m_gameObject = this;
+            m_stagedComponents[componentName] = component;
+            return component;
         }
 
         template <class ComponentClass>
@@ -67,11 +56,13 @@ namespace MNPCore {
             if (m_dead) {
                 // should probably warn here
                 return NULL;
-            } else if (m_components.find(componentName) == m_components.end()) {
-                // we don't exist!
-                return NULL;
+            } else if (m_components.find(componentName) != m_components.end()) {
+                return dynamic_cast<ComponentClass*>(m_components.find(componentName)->second);
+            } else if (m_stagedComponents.find(componentName) != m_stagedComponents.end()) {
+                return dynamic_cast<ComponentClass*>(m_stagedComponents.find(componentName)->second);
             }
-            return m_components.find(componentName)->second;
+            // we don't exist!
+            return NULL;
         }
     };
 }

@@ -12,8 +12,8 @@ namespace MNPCore {
 
     void GameObject::onLoad(Engine &engineContext) {
         std::map<std::string,GameObjectComponent*>::iterator it;
-        for (it = m_components.begin(); it != m_components.end(); ++it) {
-            it->second->onLoad(engineContext, *this);
+        for (it = m_stagedComponents.begin(); it != m_stagedComponents.end(); ++it) {
+            it->second->onLoad(engineContext);
         }
     }
 
@@ -28,38 +28,27 @@ namespace MNPCore {
 
         // everyone gets to go in :)
         for (it = m_components.begin(); it != m_components.end(); ++it) {
-            it->second->onEnter(engineContext, *this);
+            it->second->onEnter(engineContext);
         }
     }
 
     void GameObject::onUpdate(Engine &engineContext, const float &deltaTime) {
         std::map<std::string,GameObjectComponent*>::iterator it;
         for (it = m_components.begin(); it != m_components.end(); ++it) {
-            it->second->onUpdate(engineContext, *this, deltaTime);
+            it->second->onUpdate(engineContext, deltaTime);
         }
     }
 
     void GameObject::onPostUpdate(Engine &engineContext) {
         std::map<std::string,GameObjectComponent*>::iterator it;
         for (it = m_components.begin(); it != m_components.end(); ++it) {
-            it->second->onPostUpdate(engineContext, *this);
+            it->second->onPostUpdate(engineContext);
         }
-
-        // kill all dedded stuff
-        // Note: guarantee the component name exists in components
-        std::set<std::string>::iterator deadIt;
-        for (deadIt = m_deadComponents.begin(); deadIt != m_deadComponents.end(); ++deadIt) {
-            it = m_components.find(*deadIt);
-            it->second->onExit(engineContext, *this);
-            delete it->second;
-            m_components.erase(it);
-        }
-        m_deadComponents.clear();
 
         // push in all new stuff
         for (it = m_stagedComponents.begin(); it != m_stagedComponents.end(); ++it) {
             m_components[it->first] = it->second;
-            it->second->onEnter(engineContext, *this);
+            it->second->onEnter(engineContext);
         }
         m_stagedComponents.clear();
     }
@@ -67,14 +56,14 @@ namespace MNPCore {
     void GameObject::onExit(Engine &engineContext) {
         std::map<std::string,GameObjectComponent*>::iterator it;
         for (it = m_components.begin(); it != m_components.end(); ++it) {
-            it->second->onExit(engineContext, *this);
+            it->second->onExit(engineContext);
         }
     }
 
     void GameObject::onUnload(Engine &engineContext) {
         std::map<std::string,GameObjectComponent*>::iterator it;
-        for (it = m_components.begin(); it != m_components.end(); ++it) {
-            it->second->onUnload(engineContext, *this);
+        for (it = m_stagedComponents.begin(); it != m_stagedComponents.end(); ++it) {
+            it->second->onUnload(engineContext);
         }
     }
 
@@ -82,7 +71,12 @@ namespace MNPCore {
         m_dead = false;
     }
 
-    GameObject::~GameObject() {}
+    GameObject::~GameObject() {
+        std::map<std::string,GameObjectComponent*>::iterator it;
+        for (it = m_stagedComponents.begin(); it != m_stagedComponents.end(); ++it) {
+            delete it->second;
+        }
+    }
 
     void GameObject::kill() {
         if (m_dead) {

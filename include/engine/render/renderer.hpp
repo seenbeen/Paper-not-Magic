@@ -15,7 +15,7 @@ namespace MNPRender {
         sf::RenderWindow &m_window;
 
         // compositing
-        //std::map<std::string,CompositingTree*> m_compositingTrees;
+        // std::map<std::string,CompositingTree*> m_compositingTrees;
         std::map<std::string,Scene*> m_scenes;
 
         std::list<std::pair<sf::Shape*,float> > m_debugShapes;

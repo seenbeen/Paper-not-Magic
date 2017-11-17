@@ -89,16 +89,17 @@ namespace MNPCore {
         }
 
         template <class GameObjectType>
-        bool addObject(const std::string &objectName) {
+        GameObjectType *addObject(const std::string &objectName) {
             if (m_stagedObjects.find(objectName) != m_stagedObjects.end()) {
                 // warn!
-                return false;
+                return NULL;
             } else if (m_objects.find(objectName) != m_objects.end()) {
                 // warn again!
-                return false;
+                return NULL;
             }
-            m_stagedObjects[objectName] = new GameObjectType();
-            return true;
+            GameObjectType *obj = new GameObjectType();
+            m_stagedObjects[objectName] = obj;
+            return obj;
         }
     };
 }

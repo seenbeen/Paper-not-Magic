@@ -3,50 +3,36 @@
 #include <engine/core/game-object.hpp>
 #include <engine/core/game-object-component.hpp>
 
-#include <mnp/framework/ui/ui-elements.hpp>
-
 namespace Experimental { namespace EngineDemos {
-    using namespace MNPCore;
-    using namespace MNPRender;
-
-    class ComponentA : public GameObjectComponent {
+    class ComponentA : public MNPCore::GameObjectComponent {
         float m_timeOfExistence;
     public:
-        void onLoad(Engine &engineContext, GameObject &objContext);
-        void onEnter(Engine &engineContext, GameObject &objContext);
-        void onUpdate(Engine &engineContext, GameObject &objContext, const float &deltaTime);
-        void onPostUpdate(Engine &engineContext, GameObject &objContext);
-        void onExit(Engine &engineContext, GameObject &objContext);
-        void onUnload(Engine &engineContext, GameObject &objContext);
+        void onLoad(MNPCore::Engine &engineContext);
+        void onEnter(MNPCore::Engine &engineContext);
+        void onUpdate(MNPCore::Engine &engineContext, const float &deltaTime);
+        void onPostUpdate(MNPCore::Engine &engineContext);
+        void onExit(MNPCore::Engine &engineContext);
+        void onUnload(MNPCore::Engine &engineContext);
     };
 
-    class ObjectA : public GameObject {
+    class ObjectA : public MNPCore::GameObject {
     public:
         ObjectA();
     };
 
     enum EngineStages { MENU, GAME };
 
-    class StageA : public Stage<EngineStages> {
+    class StageA : public MNPCore::Stage<EngineStages> {
     public:
         StageA();
-        void onEnter(Engine &engineContext);
-        void onUpdate(Engine &engineContext, const float &deltaTime);
-        void onPostUpdate(Engine &engineContext);
-        void onExit(Engine &EngineContext);
+        void onEnter(MNPCore::Engine &engineContext);
+        void onUpdate(MNPCore::Engine &engineContext, const float &deltaTime);
+        void onPostUpdate(MNPCore::Engine &engineContext);
+        void onExit(MNPCore::Engine &EngineContext);
     };
 
     class EngineDemoA {
     public:
         int run();
-    };
-
-    class MyUIObject : public GameObject {
-    public:
-        MyUIObject() {
-            addComponent<UIHandler>("UIHandlerComponent");
-        }
-
-        ~MyUIObject() {}
     };
 }}

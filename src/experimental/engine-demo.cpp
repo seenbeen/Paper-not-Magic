@@ -19,30 +19,31 @@
 namespace Experimental { namespace EngineDemos {
     using namespace MNPCore;
     using namespace MNPRender;
+    using namespace MNPFrame;
 
-    void ComponentA::onLoad(Engine &engineContext, GameObject &objContext) {
+    void ComponentA::onLoad(Engine &engineContext) {
         std::cout << "ComponentA on Load" << std::endl;
         m_timeOfExistence = 0.0f;
     }
 
-    void ComponentA::onEnter(Engine &engineContext, GameObject &objContext) {
+    void ComponentA::onEnter(Engine &engineContext) {
         std::cout << "ComponentA on Enter" << std::endl;
     }
 
-    void ComponentA::onUpdate(Engine &engineContext, GameObject &objContext, const float &deltaTime) {
+    void ComponentA::onUpdate(Engine &engineContext, const float &deltaTime) {
         /*if (m_timeOfExistence >= 5.0f) {
             engineContext.stop();
         }*/
         m_timeOfExistence += deltaTime;
     }
 
-    void ComponentA::onPostUpdate(Engine &engineContext, GameObject &objContext) {}
+    void ComponentA::onPostUpdate(Engine &engineContext) {}
 
-    void ComponentA::onExit(Engine &engineContext, GameObject &objContext) {
+    void ComponentA::onExit(Engine &engineContext) {
         std::cout << "ComponentA on Exit" << std::endl;
     }
 
-    void ComponentA::onUnload(Engine &engineContext, GameObject &objContext) {
+    void ComponentA::onUnload(Engine &engineContext) {
         std::cout << "ComponentA on Unload" << std::endl;
     }
 
@@ -50,10 +51,7 @@ namespace Experimental { namespace EngineDemos {
         addComponent<ComponentA>("ComponentA");
     }
 
-    StageA::StageA() : Stage(GAME) {
-        addObject<ObjectA>("ObjectA");
-        addObject<MyUIObject>("UIObject");
-    }
+    StageA::StageA() : Stage(GAME) {}
 
     void StageA::onEnter(Engine &engineContext) {
         std::cout << "StageA onEnter" << std::endl;
@@ -61,6 +59,24 @@ namespace Experimental { namespace EngineDemos {
         debugShape.setFillColor(sf::Color::Green);
         debugShape.setPosition(sf::Vector2f(400-50,300-40));
         engineContext.getRenderer().debugRectangleShape(debugShape,2.5f);
+        addObject<ObjectA>("ObjectA");
+        UIRootObject *uiRoot = addObject<UIRootObject>("UIRootComponentObject");
+        engineContext.getInputHandler().addContext(uiRoot->getContextComponent());
+
+        UIButtonObject *buttonA = addObject<UIButtonObject>("UIButtonA");
+        UIButtonTestComponent *buttCompA = buttonA->addComponent<UIButtonTestComponent>("ButtonComponent");
+        buttCompA->setColor(sf::Color::Red);
+        buttonA->transform.position() = sf::Vector2f(0,0);
+        buttonA->setDimensions(sf::Vector2f(100,100));
+
+        UIButtonObject *buttonB = addObject<UIButtonObject>("UIButtonB");
+        UIButtonTestComponent *buttCompB = buttonB->addComponent<UIButtonTestComponent>("ButtonComponent");
+        buttCompB->setColor(sf::Color::Green);
+        buttonB->transform.position() = sf::Vector2f(75,75);
+        buttonB->setDimensions(sf::Vector2f(50,50));
+
+        uiRoot->addUIObjectChild(buttonA);
+        uiRoot->addUIObjectChild(buttonB);
     }
 
     void StageA::onUpdate(Engine &engineContext, const float &deltaTime) {}
@@ -131,8 +147,6 @@ namespace Experimental { namespace EngineDemos {
         Scene myScene(atlas);
         setupScene(myScene);
         engine.getRenderer().addScene("testScene",myScene);
-
-        std::cout << "This window will automatically close in ~5 seconds. Please wait..." << std::endl << std::endl;
 
         engine.run();
         engine.shutdown();
