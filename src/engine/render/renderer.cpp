@@ -6,14 +6,26 @@
 #include <engine/render/scene.hpp>
 
 namespace MNPRender {
+    Renderer::DebugShape::DebugShape(sf::Shape *shape, const int &depth, const float &duration)
+        : shape(shape), depth(depth), duration(duration) {}
+
+    Renderer::DebugShape::~DebugShape() {
+        delete shape;
+    }
+
+    bool Renderer::DebugShape::compareDebugShape(const DebugShape *A, const DebugShape *B) {
+        return A->depth > B->depth;
+    }
+
     void Renderer::renderDebugShapes(const float &deltaTime) {
-        std::list<std::pair<sf::Shape*,float> >::iterator it;
+        m_debugShapes.sort(DebugShape::compareDebugShape);
+        std::list<DebugShape*>::iterator it;
         it = m_debugShapes.begin();
         while (it != m_debugShapes.end()) {
-            m_window.draw(*it->first);
-            it->second -= deltaTime;
-            if (it->second <= 0.0f) {
-                delete it->first;
+            m_window.draw(*(*it)->shape);
+            (*it)->duration -= deltaTime;
+            if ((*it)->duration <= 0.0f) {
+                delete *it;
                 it = m_debugShapes.erase(it);
             } else {
                 ++it;
@@ -77,17 +89,19 @@ namespace MNPRender {
         m_window.display();
     }
 
-    void Renderer::debugCircleShape(const sf::CircleShape &shape, const float &duration) {
+    void Renderer::debugCircleShape(const sf::CircleShape &shape, const int &depth, const float &duration) {
         sf::Shape *shape_copy = new sf::CircleShape(shape);
-        m_debugShapes.push_back(std::pair<sf::Shape*,float>(shape_copy,duration));
+        m_debugShapes.push_back(new DebugShape(shape_copy,depth,duration));
     }
-    void Renderer::debugRectangleShape(const sf::RectangleShape &shape, const float &duration) {
+
+    void Renderer::debugRectangleShape(const sf::RectangleShape &shape, const int &depth, const float &duration) {
         sf::Shape *shape_copy = new sf::RectangleShape(shape);
-        m_debugShapes.push_back(std::pair<sf::Shape*,float>(shape_copy,duration));
+        m_debugShapes.push_back(new DebugShape(shape_copy,depth,duration));
     }
-    void Renderer::debugConvexShape(const sf::ConvexShape &shape, const float &duration) {
+
+    void Renderer::debugConvexShape(const sf::ConvexShape &shape, const int &depth, const float &duration) {
         sf::Shape *shape_copy = new sf::ConvexShape(shape);
-        m_debugShapes.push_back(std::pair<sf::Shape*,float>(shape_copy,duration));
+        m_debugShapes.push_back(new DebugShape(shape_copy,depth,duration));
     }
 }
 

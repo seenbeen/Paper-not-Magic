@@ -58,22 +58,27 @@ namespace Experimental { namespace EngineDemos {
         sf::RectangleShape debugShape(sf::Vector2f(100,80));
         debugShape.setFillColor(sf::Color::Green);
         debugShape.setPosition(sf::Vector2f(400-50,300-40));
-        engineContext.getRenderer().debugRectangleShape(debugShape,2.5f);
+        engineContext.getRenderer().debugRectangleShape(debugShape,1,2.5f);
         addObject<ObjectA>("ObjectA");
+
+        //----------------------------------------------------
+
         UIRootObject *uiRoot = addObject<UIRootObject>("UIRootComponentObject");
         engineContext.getInputHandler().addContext(uiRoot->getContextComponent());
 
         UIButtonObject *buttonA = addObject<UIButtonObject>("UIButtonA");
-        UIButtonTestComponent *buttCompA = buttonA->addComponent<UIButtonTestComponent>("ButtonComponent");
-        buttCompA->setColor(sf::Color::Red);
         buttonA->transform.position() = sf::Vector2f(0,0);
         buttonA->setDimensions(sf::Vector2f(100,100));
 
+        UIButtonTestComponent *buttCompA = buttonA->addComponent<UIButtonTestComponent>("ButtonComponent");
+        buttCompA->setColor(sf::Color::Red);
+
         UIButtonObject *buttonB = addObject<UIButtonObject>("UIButtonB");
-        UIButtonTestComponent *buttCompB = buttonB->addComponent<UIButtonTestComponent>("ButtonComponent");
-        buttCompB->setColor(sf::Color::Green);
         buttonB->transform.position() = sf::Vector2f(75,75);
         buttonB->setDimensions(sf::Vector2f(50,50));
+
+        UIButtonTestComponent *buttCompB = buttonB->addComponent<UIButtonTestComponent>("ButtonComponent");
+        buttCompB->setColor(sf::Color::Green);
 
         uiRoot->addUIObjectChild(buttonA);
         uiRoot->addUIObjectChild(buttonB);

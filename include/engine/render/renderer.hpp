@@ -2,7 +2,6 @@
 #include <string>
 #include <map>
 #include <list>
-#include <utility>
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Shape.hpp>
@@ -12,13 +11,23 @@
 
 namespace MNPRender {
     class Renderer {
+        struct DebugShape {
+            sf::Shape *shape;
+            int depth;
+            float duration;
+
+            DebugShape(sf::Shape *shape, const int &depth, const float &duration);
+            ~DebugShape();
+            static bool compareDebugShape(const DebugShape *A, const DebugShape *B);
+        };
+
         sf::RenderWindow &m_window;
 
         // compositing
         // std::map<std::string,CompositingTree*> m_compositingTrees;
         std::map<std::string,Scene*> m_scenes;
 
-        std::list<std::pair<sf::Shape*,float> > m_debugShapes;
+        std::list<DebugShape*> m_debugShapes;
 
         void renderDebugShapes(const float &deltaTime);
 
@@ -42,8 +51,8 @@ namespace MNPRender {
         void update(const float &deltaTime);
 
         // debug drawing functions
-        void debugCircleShape(const sf::CircleShape &shape, const float &duration=0.0f);
-        void debugRectangleShape(const sf::RectangleShape &shape, const float &duration=0.0f);
-        void debugConvexShape(const sf::ConvexShape &shape, const float &duration=0.0f);
+        void debugCircleShape(const sf::CircleShape &shape, const int &depth, const float &duration=0.0f);
+        void debugRectangleShape(const sf::RectangleShape &shape, const int &depth, const float &duration=0.0f);
+        void debugConvexShape(const sf::ConvexShape &shape, const int &depth, const float &duration=0.0f);
     };
 }

@@ -121,7 +121,7 @@ namespace MNPFrame {
         }
 
         // layer depth only supported between debug shapes (think of it like another layer)
-        engineContext.getRenderer().debugRectangleShape(m_drawShape);
+        engineContext.getRenderer().debugRectangleShape(m_drawShape,gameObject().transform.depth());
     }
 
     void UIButtonTestComponent::onPostUpdate(MNPCore::Engine &engineContext) {}

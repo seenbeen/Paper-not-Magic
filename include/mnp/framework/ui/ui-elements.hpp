@@ -58,6 +58,7 @@ namespace MNPFrame {
 
     public:
         bool buttonClicked();
+
         void handleEventImpl(const sf::Event &event, bool &willPropagate, bool &wantsFocus);
         void onPostUpdate(MNPCore::Engine &engineContext);
     };
